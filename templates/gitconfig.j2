@@ -1,0 +1,40 @@
+[user]
+    name = {{ dev_user_git_fullname }}
+    email = {{ dev_user_git_email }}
+[core]
+    editor = vim
+[push]
+    default = simple
+[alias]
+    a = add
+    b = branch
+    bb = branch -a -vv
+    ca = commit -a
+    cane = commit --amend --noedit
+    cf = config
+    ch = cherry-pick
+    ci = commit
+    co = checkout
+    d = diff -M -D
+    di = diff --cached -M -D
+    f = fetch -v
+    gca = gc --aggressive --prune=all
+    lg1 = log --graph --abbrev-commit --decorate --date=format:'%m-%d %H:%M' --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    lg3 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg = !"git lg3"
+    lo = log --oneline --graph --decorate
+    me = merge --no-commit
+    phf = push -f heroku
+    pl = pull -v
+    ps = push -v
+    psf = push -v -f
+    reco = rebase --continue
+    rr = remote -v
+    s = status -s
+    st = status
+    sh = show
+    sub = submodule
+    subi = submodule update --init
+    undo = reset HEAD --
+    up = pull -v --rebase

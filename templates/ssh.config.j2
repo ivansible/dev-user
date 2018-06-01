@@ -1,0 +1,9 @@
+# ansible example of ssh config
+
+#Host {{ inventory_hostname }}
+#Hostname {{ ansible_fqdn | default(inventory_hostname, true) }}
+#Port {{ ansible_port }}
+#User {{ ansible_user_id }}
+#IdentityFile ~/.ssh/{{ dev_user_keys_files | first | basename }}
+
+#.

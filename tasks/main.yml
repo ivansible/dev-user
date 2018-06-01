@@ -1,0 +1,42 @@
+---
+- name: bashrc customizations
+  import_tasks: bashrc.yml
+  tags: dev_user_bashrc
+
+- name: git config customizations
+  import_tasks: git-config.yml
+  tags: dev_user_gitconfig
+
+- name: ensure .ssh directory exists
+  file:
+    path: ~/.ssh
+    state: directory
+    mode: 0700
+
+- name: ensure github and friends are known hosts
+  import_tasks: known-hosts.yml
+  when: "dev_user_add_known_hosts | bool == true"
+  tags: dev_user_known_hosts
+
+- name: install ssh access keys (superuser-only)
+  import_tasks: ssh-keys.yml
+  when: "'workspace' in group_names and dev_user_install_keys | bool == true"
+  tags: dev_user_install_keys
+
+- name: directory for user binaries
+  file:
+    path: ~/bin/
+    state: directory
+
+- name: install gendiff utility
+  copy:
+    src: gendiff
+    dest: ~/bin/
+    mode: 0755
+    force: no
+
+- import_tasks: root.yml
+  become: yes
+  when: "dev_user_setup_system | bool == true"
+  tags: dev_user_setup_system
+...

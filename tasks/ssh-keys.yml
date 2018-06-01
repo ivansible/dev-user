@@ -1,0 +1,28 @@
+---
+- name: verify the keys to copy
+  assert:
+    that: "dev_user_keys_files | length > 0"
+    msg: "access keys not found!"
+
+- name: copy ssh keys
+  copy:
+    src: "{{ item }}"
+    dest: ~/.ssh/
+    mode: 0400
+  with_items: "{{ dev_user_keys_files }}"
+
+- name: generate rsa ssh key for user, if not yet exists
+  user:
+    name: "{{ ansible_user_id }}"
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 2048
+    ssh_key_comment: "{{ ansible_user_id }}@{{ inventory_hostname }} ansible-generated"
+
+- name: create example ssh config
+  template:
+    src: ssh.config.j2
+    dest: ~/.ssh/config
+    mode: 0600
+    force: no
+...

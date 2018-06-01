@@ -1,0 +1,19 @@
+---
+- name: install common development packages
+  apt:
+    name: "{{ dev_user_system_packages }}"
+
+- name: pid in core dump file names for multi-threaded debugging
+  sysctl:
+    name: kernel.core_uses_pid
+    value: 1
+    state: present
+    sysctl_file: /etc/sysctl.d/77-debug.conf
+
+- name: enable sys-req debugging of the kernel
+  sysctl:
+    name: kernel.sysrq
+    value: 0
+    state: absent
+    sysctl_file: /etc/sysctl.d/77-debug.conf
+...

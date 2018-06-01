@@ -1,0 +1,22 @@
+---
+- name: check that .gitconfig exists
+  stat:
+    path: ~/.gitconfig
+  register: old_gitconfig
+
+- name: custom git configuration
+  template:
+    src: gitconfig.j2
+    dest: "{{ '~/.gitconfig' + (old_gitconfig.stat.exists | ternary('.ansible-example', '')) }}"
+    mode: 0640
+  register: new_gitconfig
+
+- name: harden .gitconfig permissions
+  file:
+    path: ~/.gitconfig
+    mode: 0640
+
+- debug:
+    msg: "wrote new git configuration in .gitconfig.ansible-example"
+  when: "old_gitconfig.stat.exists and new_gitconfig is changed"
+...

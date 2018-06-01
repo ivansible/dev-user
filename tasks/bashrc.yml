@@ -1,0 +1,24 @@
+---
+- name: place for custom bash settings
+  copy:
+    src: bashrc.local.sh
+    dest: ~/.bashrc.local
+    force: no
+
+- name: source local settings from bashrc
+  lineinfile:
+    dest: ~/.bashrc
+    line: ". ~/.bashrc.local  # ansible managed"
+    regexp: "^(source|\\.) ~/\\.bashrc\\.local\\b"
+
+- name: some common bash customizations
+  blockinfile:
+    path: ~/.bashrc.local
+    block: "{{ lookup('file', 'bashrc.ansible-block.sh') }}"
+    marker: "# == {mark} ANSIBLE BASHRC =="
+    # putting before "local aliases" is not fully correct
+    # better put before "^# local (aliases|settings)|^#."
+    # needing yet unimplemented option "first match"
+    # see  https://github.com/ansible/ansible/issues/29394
+    insertbefore: "^# local aliases"
+...
