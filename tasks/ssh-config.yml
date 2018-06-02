@@ -1,0 +1,58 @@
+---
+- name: generate rsa ssh key for user, if not yet exists
+  user:
+    name: "{{ ansible_user_id }}"
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 2048
+    ssh_key_comment: "{{ ansible_user_id }}@{{ inventory_hostname }} ansible-generated"
+
+- name: example ssh config
+  template:
+    src: ssh.config.j2
+    dest: ~/.ssh/config
+    mode: 0600
+    force: no
+
+- name: reverse ssh config entry
+  block:
+    - set_fact:
+        revssh_name: "{{ dev_user_rev_ssh_host }}"
+        revssh_host: "{{ hostvars[dev_user_rev_ssh_host]['ansible_host'] }}"
+        revssh_port: "{{ hostvars[dev_user_rev_ssh_host]['ansible_port'] }}"
+    - name: insert reverse ssh entry in ssh config
+      blockinfile:
+        path: ~/.ssh/config
+        create: yes
+        mode: 0600
+        block: |
+          Host {{ revssh_name }}
+            Hostname {{ revssh_host }}
+            Port {{ revssh_port }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            LogLevel ERROR
+        marker: "# == {mark} reverse ssh =="
+        insertafter: "^#\\."
+    - debug:
+        msg:
+          - "Create reverse forwarding: ssh -R {{revssh_port}}:{{revssh_host}}:{{ansible_port}} -p{{ansible_port}} {{ansible_fqdn}}"
+          - "Get back via reverse port: ansible revssh -m ping"
+  when: "dev_user_rev_ssh_host in hostvars"
+
+
+- name: insert example entry in ssh config
+  blockinfile:
+    path: ~/.ssh/config
+    create: yes
+    mode: 0600
+    block: |
+      Host {{ inventory_hostname }}.example
+        Hostname {{ ansible_fqdn | default(inventory_hostname, true) }}
+        Port {{ ansible_port }}
+        User {{ ansible_user_id }}
+        StrictHostKeyChecking no
+        IdentityFile ~/.ssh/{{ dev_user_install_keys | bool | ternary(dev_user_keys_files, ['']) | first | basename | default('id_rsa',true) }}
+    marker: "# == {mark} example entry =="
+    insertafter: "^#\\."
+...

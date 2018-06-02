@@ -13,15 +13,14 @@
     state: directory
     mode: 0700
 
-- name: ensure github and friends are known hosts
-  import_tasks: known-hosts.yml
-  when: "dev_user_add_known_hosts | bool == true"
-  tags: dev_user_known_hosts
-
-- name: install ssh access keys (superuser-only)
+- name: install ssh keys
   import_tasks: ssh-keys.yml
   when: "'workspace' in group_names and dev_user_install_keys | bool == true"
   tags: dev_user_install_keys
+
+- name: generate ssh config
+  import_tasks: ssh-config.yml
+  tags: dev_user_ssh_config
 
 - name: directory for user binaries
   file:
@@ -35,7 +34,7 @@
     mode: 0755
     force: no
 
-- import_tasks: root.yml
+- import_tasks: system.yml
   become: yes
   when: "dev_user_setup_system | bool == true"
   tags: dev_user_setup_system

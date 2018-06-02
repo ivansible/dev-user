@@ -17,6 +17,7 @@
     mode: 0640
 
 - debug:
-    msg: "wrote new git configuration in .gitconfig.ansible-example"
+    msg:
+      - "Wrote new git configuration in ~/.gitconfig.ansible-example"
   when: "old_gitconfig.stat.exists and new_gitconfig is changed"
 ...

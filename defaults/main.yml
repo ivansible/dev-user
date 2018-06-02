@@ -4,17 +4,18 @@
 dev_user_git_fullname: "{{ ansible_user_id }}"
 dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventory_hostname, true)) }}"
 
-dev_user_add_known_hosts: true
-dev_user_known_host_list:
-  - github.com
-  - gitlab.com
-  - bitbucket.org
-
 dev_user_install_keys: true
 dev_user_keys_files: "{{ query('fileglob', 'files/secret/vanko-*.key') }}"
 
+dev_user_rev_ssh_host: revssh
+
 dev_user_setup_system: true
+
 dev_user_system_packages:
   - git
   - build-essential
+
+dev_user_known_host_list:
+  - github.com
+  - gitlab.com
 ...

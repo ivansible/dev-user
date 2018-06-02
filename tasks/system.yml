@@ -1,0 +1,32 @@
+---
+- name: install common development packages
+  apt:
+    name: "{{ dev_user_system_packages }}"
+
+- name: pid in core dump file names for multi-threaded debugging
+  sysctl:
+    name: kernel.core_uses_pid
+    value: 1
+    state: present
+    sysctl_file: /etc/sysctl.d/77-debug.conf
+
+- name: enable sys-req debugging of the kernel
+  sysctl:
+    name: kernel.sysrq
+    value: 0
+    state: absent
+    sysctl_file: /etc/sysctl.d/77-debug.conf
+
+- name: record public keys of known hosts
+  lineinfile:
+    dest: /etc/ssh/ssh_known_hosts
+    create: yes
+    mode: 0644
+    state: present
+    # what this expression does:
+    #   hostname:port -> ssh-keyscan -t rsa -p port hostname 2>/dev/null
+    #   hostname      -> ssh-keyscan -t rsa -p 22   hostname 2>/dev/null
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa -p ' + (item | regex_search(':[0-9]+') | default('22',true) | regex_replace(':')) + ' ' + (item | regex_replace(':.*')) + '') }}"
+    regexp: "{{ '^\\[?' + (item | regex_replace(':.*')) }}"
+  loop: "{{ dev_user_known_host_list }}"
+...
