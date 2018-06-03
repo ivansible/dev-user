@@ -65,6 +65,7 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_install_keys` - Install SSH keys
 - `dev_user_ssh_config` - Customize `~/.ssh/config`
 - `dev_user_setup_system` - Install development packages and known host keys
+- `dev_user_known_hosts` - Update global list of known hosts
 
 
 ## Dependencies
