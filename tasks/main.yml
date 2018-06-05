@@ -14,7 +14,19 @@
     mode: 0700
 
 - name: install ssh keys
-  import_tasks: ssh-keys.yml
+  block:
+    - name: verify the keys to copy
+      assert:
+        that: "dev_user_keys_files | length > 0"
+        msg: "access keys not found!"
+      when: "dev_user_require_keys | bool == true"
+
+    - name: copy ssh keys
+      copy:
+        src: "{{ item }}"
+        dest: ~/.ssh/
+        mode: 0400
+      loop: "{{ dev_user_keys_files }}"
   when: "'workspace' in group_names and dev_user_install_keys | bool == true"
   tags: dev_user_install_keys
 

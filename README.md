@@ -31,12 +31,17 @@ If this setting is *true* and if the remote host belongs in the
 `workspace` group, this role will install private SSH keys for
 remote user under `~/.ssh`. Otherwise, this step will be skipped.
 
-
     dev_user_keys_files: <playbook_dir>/files/secret/vanko-*.key
 
 The list of private key files to install. It can be overridden in
 `group_vars/workspace/secret/dev-user.yml`. The list must not be empty,
 if `dev_user_install_keys` is *true*.
+
+    dev_user_require_keys: true
+
+By default this is _true_ and script will abort if the list of private
+key files is empty. Set this to _false_ if you want to enable empty
+list of keys.
 
 
     dev_user_rev_ssh_host: revssh

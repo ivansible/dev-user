@@ -52,7 +52,10 @@
         Port {{ ansible_port }}
         User {{ ansible_user_id }}
         StrictHostKeyChecking no
-        IdentityFile ~/.ssh/{{ dev_user_install_keys | bool | ternary(dev_user_keys_files, ['']) | first | basename | default('id_rsa',true) }}
+        IdentityFile ~/.ssh/{{
+            (dev_user_install_keys | bool | ternary(dev_user_keys_files, [])
+             or ['']) | first | basename | default('id_rsa',true)
+          }}
     marker: "# == {mark} example entry =="
     insertafter: "^#\\."
 ...
