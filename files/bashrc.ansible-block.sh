@@ -19,6 +19,7 @@ alias rmf='/bin/rm -f'
 alias rmrf='/bin/rm -rf'
 alias t='tail'
 alias tf='tail -F'
+alias tma='tmux attach'
 alias v='vim'
 alias wl='wc -l'
 
