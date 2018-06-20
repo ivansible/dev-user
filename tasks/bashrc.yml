@@ -11,14 +11,35 @@
     line: ". ~/.bashrc.local  # ansible managed"
     regexp: "^(source|\\.) ~/\\.bashrc\\.local\\b"
 
+- name: delimiter for ansible blocks
+  # we should put before the first line
+  #   "^# local (aliases|settings)|^#\\."
+  # but blockinline lacks option "firstmatch"
+  # see  https://github.com/ansible/ansible/issues/29394
+  # this step is a workaround
+  lineinfile:
+    path: ~/.bashrc.local
+    line: "# --- user settings ---"
+    state: present
+    insertbefore: "^# local (aliases|settings)|^#\\."
+    firstmatch: yes
+
 - name: some common bash customizations
   blockinfile:
     path: ~/.bashrc.local
     block: "{{ lookup('file', 'bashrc.ansible-block.sh') }}"
     marker: "# == {mark} ANSIBLE BASHRC =="
-    # putting before "local aliases" is not fully correct
-    # better put before "^# local (aliases|settings)|^#."
-    # needing yet unimplemented option "first match"
-    # see  https://github.com/ansible/ansible/issues/29394
-    insertbefore: "^# local aliases"
+    insertbefore: "^# --- user settings ---"
+
+- name: exported variables and tokens
+  blockinfile:
+    path: ~/.bashrc.local
+    block: |
+      #-
+      {% for var in dev_user_all_vars |sort %}
+      export {{ var }}="{{ dev_user_all_vars[var] }}"
+      {% endfor %}
+      #-
+    marker: "# == {mark} ANSIBLE VARS =="
+    insertbefore: "^# --- user settings ---"
 ...

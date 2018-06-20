@@ -51,6 +51,14 @@ key files is empty. Set this to _false_ if you want to enable empty
 list of keys.
 
 
+    dev_user_group_vars: {}
+    dev_user_host_vars: {}
+    dev_user_extra_vars: {}
+
+Dictionaries of exported variable names/values that will added to the
+user's bashrc.
+
+
     dev_user_rev_ssh_host: revssh
 
 The role will search inventory for this host name. If found, it will
@@ -89,7 +97,10 @@ None
 
     - hosts: dock2
       roles:
-        - { role: ivansible.dev-user, dev_user_install_keys: false }
+        - role: ivansible.dev-user
+          dev_user_install_keys: false
+          dev_user_extra_vars:
+            http_proxy: http://my.proxy.com:8080
 
 
 ## Testing

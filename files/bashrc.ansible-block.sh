@@ -1,4 +1,4 @@
-#.
+#-
 
 # ensure history without duplicates
 HISTCONTROL=ignoreboth
@@ -60,10 +60,4 @@ export LESS='-R'
 #export http_proxy="http://user:password@host.com:port"
 #export https_proxy="$http_proxy"
 
-#export AWS_ACCESS_KEY_ID=""
-#export AWS_SECRET_ACCESS_KEY=""
-#export AWS_DEFAULT_REGION=""
-#export GITHUB_TOKEN=""
-#export VULTR_TOKEN=""
-
-#.
+#-

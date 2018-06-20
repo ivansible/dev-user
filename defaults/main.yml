@@ -8,6 +8,16 @@ dev_user_install_keys: true
 dev_user_require_keys: true
 dev_user_keys_files: "{{ query('fileglob', 'files/secret/vanko-*.key') }}"
 
+
+dev_user_group_vars: {}
+dev_user_host_vars: {}
+dev_user_extra_vars: {}
+
+dev_user_all_vars: "{{ dev_user_group_vars
+                     | combine(dev_user_host_vars)
+                     | combine(dev_user_extra_vars) }}"
+
+
 dev_user_rev_ssh_host: revssh
 
 dev_user_setup_system: true
