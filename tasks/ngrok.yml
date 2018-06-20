@@ -1,0 +1,22 @@
+---
+- name: detect ngrok download location
+  uri:
+    url: https://ngrok.com/download
+    connection: local
+    return_content: yes
+  register: ngrok_download_html
+  when: "ngrok_zip_url == 'latest'"
+
+- set_fact:
+    ngrok_zip_url:
+      "{{ ngrok_download_html.content
+        | regex_search('https://[^\"]+ngrok-stable-linux-amd64.zip') }}"
+  when: ngrok_download_html is not skipped
+
+- name: install ngrok
+  unarchive:
+    src: "{{ ngrok_zip_url }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    creates: /usr/local/bin/ngrok
+...

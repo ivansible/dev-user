@@ -50,4 +50,8 @@
   become: yes
   when: "dev_user_setup_system | bool == true"
   tags: dev_user_setup_system
+
+- import_tasks: ngrok.yml
+  become: yes
+  tags: dev_user_install_ngrok
 ...

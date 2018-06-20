@@ -6,6 +6,12 @@ common development packages (git, build-essentials, etc).
 If remote host belongs to the `workspace` group, this role will
 also enable private SSH keys for remote user.
 
+The role will additionally install:
+  - gzip, unzip, unrar
+  - git
+  - build essential packages
+  - [ngrok](https://ngrok.com/)
+
 
 ## Requirements
 
