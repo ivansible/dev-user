@@ -11,6 +11,7 @@ The role will additionally install:
   - git
   - build essential packages
   - [ngrok](https://ngrok.com/)
+  - github's [hub](https://github.com/github/hub)
 
 
 ## Requirements

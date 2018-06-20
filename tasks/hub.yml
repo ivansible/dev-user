@@ -1,0 +1,62 @@
+---
+- name: detect latest hub release
+  uri:
+    url: https://github.com/github/hub/releases/latest
+    method: HEAD
+  connection: local
+  register: latest_hub_release
+  when: git_hub_release == 'latest'
+
+- set_fact:
+    git_hub_release:
+      "{{ latest_hub_release.url | basename | regex_replace('^v') }}"
+  when: latest_hub_release is not skipped
+
+- debug:
+    msg: "latest hub release: {{ git_hub_release }}"
+  run_once: true
+  when: latest_hub_release is not skipped
+
+- name: create parent directory for hub
+  file:
+    path: "{{ git_hub_dir | dirname }}"
+    state: directory
+
+- name: download and unpack hub archive
+  unarchive:
+    src: "{{ git_hub_archive_url }}"
+    dest: "{{ git_hub_dir | dirname }}"
+    remote_src: yes
+    creates: "{{ git_hub_dir }}"
+  register: unpack_hub_archive
+
+- name: link to hub binary
+  file:
+    src: "{{ git_hub_dir }}/bin/hub"
+    dest: /usr/local/bin/hub
+    state: link
+
+- name: directory for hub man pages
+  file:
+    dest: "{{ git_hub_man_dir }}"
+    state: directory
+
+- name: links for hub man pages
+  shell: >
+    for page in *.1 ; do
+      ln -sf \
+        "{{ (git_hub_dir + '/share/man/man1')
+          | relpath(git_hub_man_dir) }}/$page" \
+        "{{ git_hub_man_dir }}/"
+    done
+  args:
+    chdir: "{{ git_hub_dir }}/share/man/man1"
+  when: "unpack_hub_archive is not skipped
+         or git_hub_remake_links | bool == true"
+
+- name: bash completion for hub
+  file:
+    src: "{{ git_hub_dir }}/etc/hub.bash_completion.sh"
+    dest: "{{ git_hub_completion_dir }}/hub"
+    state: link
+...

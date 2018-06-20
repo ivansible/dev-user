@@ -54,4 +54,8 @@
 - import_tasks: ngrok.yml
   become: yes
   tags: dev_user_install_ngrok
+
+- import_tasks: hub.yml
+  become: yes
+  tags: dev_user_install_hub
 ...
