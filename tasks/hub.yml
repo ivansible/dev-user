@@ -3,6 +3,7 @@
   uri:
     url: https://github.com/github/hub/releases/latest
     method: HEAD
+    #creates: "{{ git_hub_binary }}"
   connection: local
   register: latest_hub_release
   when: git_hub_release == 'latest'
@@ -33,7 +34,7 @@
 - name: link to hub binary
   file:
     src: "{{ git_hub_dir }}/bin/hub"
-    dest: /usr/local/bin/hub
+    dest: "{{ git_hub_binary }}"
     state: link
 
 - name: directory for hub man pages

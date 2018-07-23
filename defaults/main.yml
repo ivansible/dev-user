@@ -40,6 +40,7 @@ git_hub_release: latest
 git_hub_archive_url: "https://github.com/github/hub/releases/download/v{{ git_hub_release }}/hub-linux-amd64-{{ git_hub_release }}.tgz"
 git_hub_dir: "/usr/local/hub/{{ git_hub_archive_url | basename | splitext | first }}"
 git_hub_remake_links: false
+git_hub_binary: /usr/local/bin/hub
 git_hub_man_dir: /usr/local/share/man/man1
 git_hub_completion_dir: /etc/bash_completion.d
 
