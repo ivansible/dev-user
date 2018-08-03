@@ -7,7 +7,7 @@
 
 - name: source local settings from bashrc
   lineinfile:
-    dest: ~/.bashrc
+    path: ~/.bashrc
     line: ". ~/.bashrc.local  # ansible managed"
     regexp: "^(source|\\.) ~/\\.bashrc\\.local\\b"
 
