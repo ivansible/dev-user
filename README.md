@@ -95,7 +95,7 @@ None
 
 ## Example Playbook
 
-    - hosts: dock2
+    - hosts: vag2
       roles:
         - role: ivansible.dev-user
           dev_user_install_keys: false
@@ -105,9 +105,9 @@ None
 
 ## Testing
 
-    ansible-playbook plays-all/test-role.yml -e role=ivansible.dev-user -l dock2
+    ansible-playbook plays-all/run-role.yml -e role=ivansible.dev-user -l vag2
 
-See settings in `host_vars/dock2/secret/test-role.dev-user.yml`
+See settings in `host_vars/vag2/secret/test-role.dev-user.yml`
 
 
 ## License
