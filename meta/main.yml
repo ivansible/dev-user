@@ -2,6 +2,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: dev_user
   author: "Ivan Andreev"
   description: "Configure common bash aliases for remote user"
   company: "IvanSible"

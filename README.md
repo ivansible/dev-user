@@ -1,4 +1,4 @@
-# Role ivansible.dev-user
+# Role ivansible.dev_user
 
 This role configures remote host and remote user for development.
 It makes some common bash aliases for remote user and installs
@@ -97,7 +97,7 @@ None
 
     - hosts: vag2
       roles:
-        - role: ivansible.dev-user
+        - role: ivansible.dev_user
           dev_user_install_keys: false
           dev_user_extra_vars:
             http_proxy: http://my.proxy.com:8080
@@ -105,9 +105,9 @@ None
 
 ## Testing
 
-    ansible-playbook plays-all/run-role.yml -e role=ivansible.dev-user -l vag2
+    ansible-playbook plays-all/run-role.yml -e role=ivansible.dev_user -l vag2
 
-See settings in `host_vars/vag2/secret/test-role.dev-user.yml`
+See settings in `host_vars/vag2/secret/test.dev_user.yml`
 
 
 ## License
