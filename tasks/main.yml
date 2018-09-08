@@ -29,7 +29,7 @@
       loop: "{{ dev_user_keys_files }}"
       loop_control:
         label: "{{ item | basename }}"
-  when: "'workspace' in group_names and dev_user_install_keys | bool == true"
+  when: dev_user_install_keys | bool == true
   tags: dev_user_install_keys
 
 - name: generate ssh config
