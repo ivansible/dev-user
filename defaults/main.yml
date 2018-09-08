@@ -6,7 +6,7 @@ dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventor
 
 dev_user_install_keys: false
 dev_user_require_keys: true
-dev_user_keys_files: "{{ query('fileglob', 'files/secret/vanko-*.key') }}"
+dev_user_keys_files: "{{ lin_ssh_keys_files }}"
 
 
 dev_user_group_vars: {}

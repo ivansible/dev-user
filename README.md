@@ -18,7 +18,7 @@ The role will additionally install:
 
 This role needs private SSH key files be accessible by ansible.
 Normally these are placed under the `files/secret` directory next to
-the playbook (or linked therein) and by default have names `vanko-*.key`.
+the playbook (or linked therein).
 
 
 ## Variables
@@ -37,7 +37,7 @@ Full name and email to fill in git configuration.
 If this setting is *true* , the role will install private SSH keys
 for remote user under `~/.ssh`. Otherwise, this step will be skipped.
 
-    dev_user_keys_files: <playbook_dir>/files/secret/vanko-*.key
+    dev_user_keys_files: <playbook_dir>/files/secret/*.key
 
 The list of private key files to install. It can be overridden in
 `group_vars/permitted/secret/dev-user.yml`. The list must not be empty,
@@ -89,7 +89,7 @@ Setting this parameter to empty list will skip this step.
 
 ## Dependencies
 
-None
+- `ivansible.lin_base` -- for `lin_ssh_keys_files`
 
 
 ## Example Playbook
