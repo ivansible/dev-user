@@ -1,4 +1,10 @@
 ---
+- name: ensure user shell is bash
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/bash
+  become: yes
+
 - name: place for custom bash settings
   copy:
     src: bashrc.local.sh
