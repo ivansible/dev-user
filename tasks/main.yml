@@ -64,4 +64,11 @@
 - import_tasks: hub.yml
   become: yes
   tags: dev_user_install_hub
+
+- name: install backup-restore scripts on target host
+  import_role:
+    name: ivansible.backup_base
+    tasks_from: install_scripts.yml
+  become: yes
+  tags: dev_user_install_backup
 ...

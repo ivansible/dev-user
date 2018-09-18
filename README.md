@@ -12,6 +12,7 @@ The role will additionally install:
   - build essential packages
   - [ngrok](https://ngrok.com/)
   - github's [hub](https://github.com/github/hub)
+  - gz-encrypt.sh and gz-decrypt.sh scripts
 
 
 ## Requirements
@@ -85,11 +86,13 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_ssh_config` - Customize `~/.ssh/config`
 - `dev_user_setup_system` - Install development packages and known host keys
 - `dev_user_known_hosts` - Update global list of known hosts
+- `dev_user_install_backup` - install backup-restore scripts on target host
 
 
 ## Dependencies
 
 - `ivansible.lin_base` -- for `lin_ssh_keys_files`
+- `ivansible.backup_base` -- for `install_scripts.yml`
 
 
 ## Example Playbook
