@@ -17,20 +17,4 @@
     value: 0
     state: absent
     sysctl_file: /etc/sysctl.d/77-debug.conf
-
-- name: record public keys of known hosts
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    # 1st expression:
-    #   host      -> host
-    #   host:port -> [host]:port
-    name: "{{ (':' in item) | ternary('[' + item | regex_replace(':',']:'), item) }}"
-    # 2nd expression:
-    #   host      -> ssh-keyscan -t rsa -p 22   host
-    #   host:port -> ssh-keyscan -t rsa -p port host
-    key: "{{ lookup( 'pipe', 'ssh-keyscan -t rsa -p '
-                           + ((item + ':22') | regex_search(':[0-9]+'))[1:]
-                           + ' ' + (item | regex_replace(':.*')) ) }}"
-  loop: "{{ dev_user_known_host_list }}"
-  tags: dev_user_known_hosts
 ...

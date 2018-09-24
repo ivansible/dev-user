@@ -57,6 +57,11 @@
   when: "dev_user_setup_system | bool == true"
   tags: dev_user_setup_system
 
+- name: enable public keys of known hosts
+  import_tasks: known-hosts.yml
+  become: yes
+  tags: dev_user_known_hosts
+
 - import_tasks: ngrok.yml
   become: yes
   tags: dev_user_install_ngrok
