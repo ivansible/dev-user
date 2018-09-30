@@ -8,6 +8,12 @@ dev_user_install_keys: false
 dev_user_require_keys: true
 dev_user_keys_files: "{{ lin_ssh_keys_files }}"
 
+dev_user_authorized_git_repos:
+  - github.com
+  - gitlab.com
+
+dev_user_known_host_list: "{{ dev_user_authorized_git_repos }}"
+
 
 dev_user_group_vars: {}
 dev_user_host_vars: {}
@@ -28,10 +34,6 @@ dev_user_system_packages:
   - unrar
   - git
   - build-essential
-
-dev_user_known_host_list:
-  - github.com
-  - gitlab.com
 
 
 ngrok_zip_url: latest

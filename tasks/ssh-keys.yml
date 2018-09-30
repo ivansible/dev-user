@@ -1,0 +1,32 @@
+---
+- block:
+    - name: verify the keys to copy
+      assert:
+        that: "dev_user_keys_files | length > 0"
+        msg: "access keys not found!"
+      when: "dev_user_require_keys | bool == true"
+
+    - name: copy ssh keys
+      copy:
+        src: "{{ item }}"
+        dest: ~/.ssh/
+        mode: 0400
+      loop: "{{ dev_user_keys_files }}"
+      loop_control:
+        label: "{{ item | basename }}"
+
+    - name: configure keys for git repositories
+      blockinfile:
+        path: ~/.ssh/config
+        create: yes
+        mode: 0600
+        block: |
+          Host {{ item }}
+            Hostname {{ item }}
+            IdentityFile ~/.ssh/{{ dev_user_keys_files | first | basename }}
+        marker: "# == {mark} git {{ item }} =="
+        insertafter: "^#\\."
+      when: dev_user_keys_files | length > 0
+      loop: "{{ dev_user_authorized_git_repos }}"
+  tags: dev_user_install_keys
+...
