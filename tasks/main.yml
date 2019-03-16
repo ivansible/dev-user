@@ -52,11 +52,15 @@
 
 - import_tasks: ngrok.yml
   become: yes
-  tags: dev_user_install_ngrok
+  tags:
+  - dev_user_install_ngrok
+  - ip4only
 
 - import_tasks: hub.yml
   become: yes
-  tags: dev_user_install_hub
+  tags:
+  - dev_user_install_hub
+  - ip4only
 
 - name: install backup-restore scripts on target host
   import_role:
