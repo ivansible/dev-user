@@ -4,7 +4,7 @@
     url: https://ngrok.com/download
     return_content: yes
     creates: /usr/local/bin/ngrok
-  connection: local  # never use this with "creates"
+  #connection: local  # never use this with "creates"
   register: ngrok_download_html
   when: "ngrok_zip_url == 'latest'"
 
