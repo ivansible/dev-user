@@ -1,6 +1,8 @@
 ---
 # defaults file for dev-user
 
+dev_user_extras: no
+
 dev_user_git_fullname: "{{ ansible_user_id }}"
 dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventory_hostname, true)) }}"
 
