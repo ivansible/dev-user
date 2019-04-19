@@ -33,24 +33,28 @@
       #export AWS_DEFAULT_REGION=""
       #export http_proxy="http://user:password@host.com:port"
       #export https_proxy="$http_proxy"
+    insertbefore: BOF
     create: yes
 
 - name: bashrc extra paths
   blockinfile:
     path: ~/.local/bashrc/2path.sh
     block: "{{ lookup('file', 'bashrc.path.sh') }}"
+    insertbefore: BOF
     create: yes
 
 - name: bashrc local snippets
   blockinfile:
     path: ~/.local/bashrc/3common.sh
     block: "{{ lookup('file', 'bashrc.common.sh') }}"
+    insertbefore: BOF
     create: yes
 
 - name: bashrc aliases for user
   blockinfile:
     path: ~/.local/bashrc/4alias.sh
     block: "{{ lookup('file', 'bashrc.alias.sh') }}"
+    insertbefore: BOF
     create: yes
 
 - name: bashrc aliases for root
@@ -59,6 +63,7 @@
     path: /root/.bashrc
     block: "{{ lookup('file', 'bashrc.alias.sh') }}"
     marker: "# == {mark} ANSIBLE ALIASES =="
+    insertbefore: BOF
     create: yes
 
 - name: bashrc place for completions
