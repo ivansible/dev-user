@@ -1,7 +1,6 @@
 ---
-# refresh host facts as a non-root user
-- setup:
-  become: no
+- name: refresh facts as a non-root user
+  setup:
 
 - name: bashrc customizations
   import_tasks: bashrc.yml
@@ -30,7 +29,7 @@
 
 - name: install ssh keys
   import_tasks: ssh-keys.yml
-  when: dev_user_install_keys | bool == true
+  when: dev_user_install_keys |bool
   tags: dev_user_install_keys
 
 - name: enable public keys of known hosts
@@ -53,18 +52,18 @@
 
 - import_tasks: system.yml
   become: yes
-  when: "dev_user_setup_system | bool == true"
+  when: dev_user_setup_system |bool
   tags: dev_user_setup_system
 
 - import_tasks: ngrok.yml
-  when: dev_user_extras | bool == true
+  when: dev_user_extras |bool
   become: yes
   tags:
   - dev_user_install_ngrok
   - ip4only
 
 - import_tasks: hub.yml
-  when: dev_user_extras | bool == true
+  when: dev_user_extras |bool
   become: yes
   tags:
   - dev_user_install_hub

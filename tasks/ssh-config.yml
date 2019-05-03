@@ -16,10 +16,12 @@
 
 - name: reverse ssh config entry
   block:
-    - set_fact:
+    - name: derive host name and port of reverse connection
+      set_fact:
         revssh_name: "{{ dev_user_rev_ssh_host }}"
         revssh_host: "{{ hostvars[dev_user_rev_ssh_host]['ansible_host'] }}"
         revssh_port: "{{ hostvars[dev_user_rev_ssh_host]['ansible_port'] }}"
+
     - name: insert reverse ssh entry in ssh config
       blockinfile:
         path: ~/.ssh/config
@@ -34,9 +36,10 @@
             LogLevel ERROR
         marker: "# == {mark} reverse ssh =="
         insertafter: "^#\\."
+
     - debug:
         msg:
-          - "Create reverse forwarding: ssh -R {{revssh_port}}:{{revssh_host}}:{{ansible_port}} -p{{ansible_port}} {{ansible_fqdn}}"
+          - "Create reverse forwarding: ssh -R {{ revssh_port }}:{{ revssh_host }}:{{ ansible_port }} -p{{ ansible_port }} {{ ansible_fqdn }}"
           - "Get back via reverse port: ansible revssh -m ping"
   when: "dev_user_rev_ssh_host in hostvars"
 

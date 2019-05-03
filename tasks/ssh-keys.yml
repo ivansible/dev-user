@@ -4,7 +4,7 @@
       assert:
         that: "dev_user_keys_files | length > 0"
         msg: "access keys not found!"
-      when: "dev_user_require_keys | bool == true"
+      when: dev_user_require_keys |bool
 
     - name: copy ssh keys
       copy:

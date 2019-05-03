@@ -8,7 +8,8 @@
   register: latest_hub_release
   when: git_hub_release == 'latest'
 
-- set_fact:
+- name: extract hub release from github page
+  set_fact:
     git_hub_release:
       "{{ latest_hub_release.url | basename | regex_replace('^v') }}"
   when: latest_hub_release is not skipped
@@ -53,7 +54,7 @@
   args:
     chdir: "{{ git_hub_dir }}/share/man/man1"
   when: "unpack_hub_archive is not skipped
-         or git_hub_remake_links | bool == true"
+         or git_hub_remake_links |bool"
 
 - name: bash completion for hub
   file:
