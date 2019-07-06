@@ -25,6 +25,14 @@ dev_user_all_vars: "{{ dev_user_group_vars
                      | combine(dev_user_host_vars)
                      | combine(dev_user_extra_vars) }}"
 
+dev_user_group_secrets: {}
+dev_user_host_secrets: {}
+dev_user_extra_secrets: {}
+
+dev_user_all_secrets: "{{ dev_user_group_secrets
+                        | combine(dev_user_host_secrets)
+                        | combine(dev_user_extra_secrets) }}"
+
 
 dev_user_rev_ssh_host: revssh
 

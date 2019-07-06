@@ -55,7 +55,11 @@ list of keys.
     dev_user_host_vars: {}
     dev_user_extra_vars: {}
 
-Dictionaries of exported variable names/values that will added to the
+    dev_user_group_secrets: {}
+    dev_user_host_secrets: {}
+    dev_user_extra_secrets: {}
+
+Dictionaries of exported variable names/values that will be added to the
 user's bashrc.
 
 

@@ -20,21 +20,35 @@
   blockinfile:
     path: ~/.local/bashrc/1env.sh
     block: |
-      export BROWSER='firefox'
-      export EDITOR='vim'
-      export VISUAL='vim'
-      export PAGER='less'
-      export LESS='-R'
+      export BROWSER="firefox"
+      export EDITOR="vim"
+      export VISUAL="vim"
+      export PAGER="less"
+      export LESS="-F -X -R"
 
       {% for var in dev_user_all_vars |sort %}
       export {{ var }}="{{ dev_user_all_vars[var] }}"
       {% endfor %}
 
       #export AWS_DEFAULT_REGION=""
+    insertbefore: BOF
+    create: yes
+
+- name: bashrc secrets, if permitted
+  blockinfile:
+    path: ~/.local/bashrc/6secret.sh
+    block: |
+      {% if is_permitted |bool %}
+      {% for var in dev_user_all_secrets |sort %}
+      export {{ var }}="{{ dev_user_all_secrets[var] }}"
+      {% endfor %}
+      {% endif %}
+
       #export http_proxy="http://user:password@host.com:port"
       #export https_proxy="$http_proxy"
     insertbefore: BOF
     create: yes
+    mode: 0600
 
 - name: bashrc extra paths
   blockinfile:
