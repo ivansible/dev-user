@@ -26,6 +26,11 @@ the playbook (or linked therein).
 
 Available variables are listed below, along with default values.
 
+    real_ssh_port: <optional>
+This optional setting lets the user override an auto-detected ssh port value,
+which may be incorrect if ansible is run by the hashicorop packer or through
+a reverse ssh or port forwarder. An incorrect value is generally harmless
+though, as the role uses it only to fill in a comment.
 
     dev_user_git_fullname: <ansible_user_id>
     dev_user_git_email: <ansible_user_id>@<inventory_hostname>
