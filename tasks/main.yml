@@ -8,6 +8,7 @@
 
 - name: git config customizations
   import_tasks: git-config.yml
+  when: is_permitted |bool
   tags: dev_user_gitconfig
 
 - name: let tmux auto-create new sessions
@@ -25,16 +26,18 @@
 
 - name: generate ssh config
   import_tasks: ssh-config.yml
+  when: is_permitted |bool
   tags: dev_user_ssh_config
 
 - name: install ssh keys
   import_tasks: ssh-keys.yml
-  when: dev_user_install_keys |bool
+  when: dev_user_install_keys |bool and is_permitted |bool
   tags: dev_user_install_keys
 
 - name: enable public keys of known hosts
   import_tasks: known-hosts.yml
   become: yes
+  when: dev_user_install_keys |bool and is_permitted |bool
   tags: dev_user_known_hosts
 
 

@@ -1,6 +1,6 @@
 ---
 # defaults file for dev-user
-
+is_permitted: no
 dev_user_extras: no
 
 dev_user_git_fullname: "{{ ansible_user_id }}"
