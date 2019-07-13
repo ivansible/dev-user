@@ -6,6 +6,7 @@
     #creates: "{{ git_hub_binary }}"
   connection: local
   register: latest_hub_release
+  until: latest_hub_release is successful
   when: git_hub_release == 'latest'
 
 - name: extract hub release from github page
