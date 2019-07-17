@@ -20,7 +20,7 @@ alias scu='systemctl --user'
 
 alias tma='tmux attach'
 alias tt='tmux attach'
-alias sus='sudo -s'
+alias sus='sudo -Hs'
 
 alias dr='docker'
 alias dc='docker-compose'
