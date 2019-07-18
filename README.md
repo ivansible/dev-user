@@ -18,8 +18,8 @@ The role will additionally install:
 ## Requirements
 
 This role needs private SSH key files be accessible by ansible.
-Normally these are placed under the `files/secret` directory next to
-the playbook (or linked therein).
+Normally these are placed under the `files/secret/keys` directory
+next to the playbook (or linked therein).
 
 
 ## Variables
@@ -43,11 +43,14 @@ Full name and email to fill in git configuration.
 If this setting is *true* , the role will install private SSH keys
 for remote user under `~/.ssh`. Otherwise, this step will be skipped.
 
-    dev_user_keys_files: <playbook_dir>/files/secret/*.key
+    dev_user_authorized_keys_files: <playbook_dir>/files/secret/keys/*.key
+The list of private key files to authorize.
+It can be overridden in `group_vars/permitted/secret/dev-user.yml`.
 
-The list of private key files to install. It can be overridden in
-`group_vars/permitted/secret/dev-user.yml`. The list must not be empty,
-if `dev_user_install_keys` is *true*.
+    dev_user_installed_keys_files: <playbook_dir>/files/secret/keys/*.key
+The list of private key files to install.
+The list must not be empty, if `dev_user_install_keys` is *true*.
+By default, it is the first of authorized keys.
 
     dev_user_require_keys: true
 
@@ -91,8 +94,10 @@ Setting this parameter to empty list will skip this step.
 
 - `dev_user_bashrc` - Customize `~/.bashrc.local`
 - `dev_user_gitconfig` - Customize `~/.gitconfig`
+- `dev_user_pubkeys` - Authorize public SSH keys
 - `dev_user_install_keys` - Install SSH keys
 - `dev_user_ssh_config` - Customize `~/.ssh/config`
+- `dev_user_ssh_all` - All tasks related to SSH keys
 - `dev_user_setup_system` - Install development packages and known host keys
 - `dev_user_known_hosts` - Update global list of known hosts
 - `dev_user_install_backup` - install backup-restore scripts on target host

@@ -24,21 +24,53 @@
     state: directory
     mode: 0700
 
+
+- name: fix local keys permissions for ssh-keygen
+  file:
+    path: "{{ item }}"
+    mode: 0600
+  loop: "{{ dev_user_authorized_keys_files }}"
+  loop_control:
+    label: "{{ item | basename }}"
+  connection: local
+  tags:
+    - dev_user_ssh_all
+    - dev_user_ssh_pubkeys
+
+- name: authorize public keys
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('pipe', 'ssh-keygen -y -f \"{{ item }}\"') }}"
+    comment: "{{ item | basename | regex_replace('[.]key$') }}"
+    state: present
+  when: "item != ''"
+  loop: "{{ dev_user_authorized_keys_files }}"
+  loop_control:
+    label: "{{ item | basename }}"
+  tags:
+    - dev_user_ssh_all
+    - dev_user_ssh_pubkeys
+
 - name: generate ssh config
   import_tasks: ssh-config.yml
-  when: is_permitted |bool
-  tags: dev_user_ssh_config
+  tags:
+    - dev_user_ssh_all
+    - dev_user_ssh_config
 
 - name: install ssh keys
   import_tasks: ssh-keys.yml
-  when: dev_user_install_keys |bool and is_permitted |bool
-  tags: dev_user_install_keys
+  when: dev_user_install_keys |bool
+  tags:
+    - dev_user_ssh_all
+    - dev_user_install_keys
 
 - name: enable public keys of known hosts
   import_tasks: known-hosts.yml
   become: yes
   when: dev_user_install_keys |bool and is_permitted |bool
-  tags: dev_user_known_hosts
+  tags:
+    - dev_user_ssh_all
+    - dev_user_known_hosts
 
 
 - name: directory for user binaries

@@ -9,5 +9,5 @@ ph() { pygmentize $1 | less; }
 ssh-add -l &>/dev/null \
 || eval $(ssh-agent) >/dev/null \
 || echo cannot start ssh agent
-ssh-add ~/.ssh/*-any1.key &>/dev/null \
+ssh-add ~/.ssh/deex*.key &>/dev/null \
 || echo no ssh keys

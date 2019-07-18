@@ -8,11 +8,15 @@ dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventor
 
 dev_user_install_keys: false
 dev_user_require_keys: true
-dev_user_keys_files: "{{ lin_ssh_keys_files }}"
+
+# by default, all keys are authorized, but only the first one is installed
+dev_user_authorized_keys_files: "{{ lin_ssh_keys_files }}"
+dev_user_installed_keys_files: "{{ dev_user_authorized_keys_files[0:1] }}"
 
 dev_user_authorized_git_repos:
   - github.com
   - gitlab.com
+dev_user_git_repo_key: ""
 
 dev_user_known_host_list: "{{ dev_user_authorized_git_repos }}"
 
