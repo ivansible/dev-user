@@ -6,8 +6,10 @@ HISTCONTROL=ignoreboth
 ph() { pygmentize $1 | less; }
 
 # ssh-agent
-ssh-add -l &>/dev/null \
+keys=~/.ssh/deex*.key
+ssh-add $keys &>/dev/null \
 || eval $(ssh-agent) >/dev/null \
 || echo cannot start ssh agent
-ssh-add ~/.ssh/deex*.key &>/dev/null \
+ssh-add $keys &>/dev/null \
 || echo no ssh keys
+unset keys
