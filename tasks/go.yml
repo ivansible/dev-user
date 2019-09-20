@@ -1,0 +1,10 @@
+---
+- name: add Go ppa
+  apt_repository:
+    repo: ppa:longsleep/golang-backports
+    filename: golang
+
+- name: install Go from ppa
+  apt:
+    name: golang-{{ dev_user_go_version }}
+...

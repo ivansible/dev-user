@@ -93,4 +93,10 @@
     line: "# put your snippets here"
     insertbefore: BOF
     create: yes
+
+- name: bashrc Go path
+  when: dev_user_go_version != ''
+  lineinfile:
+    path: ~/.local/bashrc/2path.sh
+    line: "export PATH=~/go/bin:/usr/lib/go-{{ dev_user_go_version }}/bin:$PATH"
 ...

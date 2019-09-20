@@ -90,6 +90,12 @@
   when: dev_user_setup_system |bool
   tags: dev_user_setup_system
 
+- import_tasks: go.yml
+  when: dev_user_go_version != ''
+  become: yes
+  tags:
+  - dev_user_go
+
 - import_tasks: ngrok.yml
   when: dev_user_extras |bool
   become: yes

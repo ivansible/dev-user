@@ -58,6 +58,10 @@ By default this is _true_ and script will abort if the list of private
 key files is empty. Set this to _false_ if you want to enable empty
 list of keys.
 
+    dev_user_go_version: 1.12
+
+Golang toolchain version to install.
+
 
     dev_user_group_vars: {}
     dev_user_host_vars: {}
@@ -101,6 +105,7 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_setup_system` - Install development packages and known host keys
 - `dev_user_known_hosts` - Update global list of known hosts
 - `dev_user_install_backup` - install backup-restore scripts on target host
+- `dev_user_go` - Install Golang toolchain
 
 
 ## Dependencies
