@@ -43,9 +43,6 @@
       export {{ var }}="{{ dev_user_all_secrets[var] }}"
       {% endfor %}
       {% endif %}
-
-      #export http_proxy="http://user:password@host.com:port"
-      #export https_proxy="$http_proxy"
     insertbefore: BOF
     create: yes
     mode: 0600
