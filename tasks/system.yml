@@ -9,6 +9,7 @@
     value: "1"
     state: present
     sysctl_file: /etc/sysctl.d/77-debug.conf
+  when: dev_user_pid_in_core |bool
 
 - name: enable sys-req debugging of the kernel
   sysctl:
