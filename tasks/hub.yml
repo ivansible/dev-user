@@ -54,8 +54,8 @@
     done
   args:
     chdir: "{{ git_hub_dir }}/share/man/man1"
-  when: "unpack_hub_archive is not skipped
-         or git_hub_remake_links |bool"
+  when: unpack_hub_archive is not skipped
+        or git_hub_remake_links |bool
 
 - name: bash completion for hub
   file:

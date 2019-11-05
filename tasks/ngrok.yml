@@ -8,7 +8,7 @@
   register: ngrok_download_html
   # ngrok.com sporadically fails from .ru
   until: "'timed out' not in ngrok_download_html.stderr |default('')"
-  when: "ngrok_zip_url == 'latest'"
+  when: ngrok_zip_url == 'latest'
 
 - name: extract ngrok download location
   set_fact:

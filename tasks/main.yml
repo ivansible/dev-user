@@ -43,7 +43,7 @@
     key: "{{ lookup('pipe', 'ssh-keygen -y -f \"{{ item }}\"') }}"
     comment: "{{ item | basename | regex_replace('[.]key$') }}"
     state: present
-  when: "item != ''"
+  when: item != '' # noqa 602
   loop: "{{ dev_user_authorized_keys_files }}"
   loop_control:
     label: "{{ item | basename }}"
@@ -91,24 +91,24 @@
   tags: dev_user_setup_system
 
 - import_tasks: go.yml
-  when: dev_user_go_version != ''
+  when: dev_user_go_version != '' # noqa 602
   become: yes
   tags:
-  - dev_user_go
+    - dev_user_go
 
 - import_tasks: ngrok.yml
   when: dev_user_extras |bool
   become: yes
   tags:
-  - dev_user_install_ngrok
-  - ip4only
+    - dev_user_install_ngrok
+    - ip4only
 
 - import_tasks: hub.yml
   when: dev_user_extras |bool
   become: yes
   tags:
-  - dev_user_install_hub
-  - ip4only
+    - dev_user_install_hub
+    - ip4only
 
 - name: install backup-restore scripts on target host
   import_role:

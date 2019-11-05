@@ -26,8 +26,8 @@
             IdentityFile ~/.ssh/{{ dev_user_git_repo_key |basename }}
         marker: "# == {mark} git {{ item }} =="
         insertafter: "^#\\."
-      when: dev_user_git_repo_key != ''
-            and is_permitted |bool
+      when: is_permitted |bool
+            and dev_user_git_repo_key != '' # noqa 602
       loop: "{{ dev_user_authorized_git_repos }}"
   tags:
     - dev_user_ssh_all
