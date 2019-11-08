@@ -1,5 +1,9 @@
 # Role ivansible.dev_user
 
+[![Github Test Status](https://github.com/ivansible/dev-user/workflows/Molecule%20test/badge.svg?branch=master)](https://github.com/ivansible/dev-user/actions)
+[![Travis Test Status](https://travis-ci.org/ivansible/dev-user.svg?branch=master)](https://travis-ci.org/ivansible/dev-user)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-ivansible.dev__user-68a.svg?style=flat)](https://galaxy.ansible.com/ivansible/dev_user/)
+
 This role configures remote host and remote user for development.
 It makes some common bash aliases for remote user and installs
 common development packages (git, build-essentials, etc).
@@ -126,6 +130,7 @@ Setting this parameter to empty list will skip this step.
 
 ## Testing
 
+    molecule test [-s default]
     ansible-playbook plays-all/run-role.yml -e role=ivansible.dev_user -l vag2
 
 See settings in `host_vars/vag2/secret/test.dev_user.yml`
