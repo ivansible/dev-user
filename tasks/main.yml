@@ -1,18 +1,22 @@
 ---
 - name: bashrc customizations
   import_tasks: bashrc.yml
-  tags: dev_user_bashrc
+  tags:
+    - dev_user_bashrc
 
 - name: git config customizations
   import_tasks: git-config.yml
   when: is_permitted |bool
-  tags: dev_user_gitconfig
+  tags:
+    - dev_user_gitconfig
 
 - name: let tmux auto-create new sessions
   lineinfile:
     path: ~/.tmux.conf
     line: new-session
     create: yes
+  tags:
+    - dev_user_utils
 
 
 - name: ensure .ssh directory exists
@@ -20,6 +24,8 @@
     path: ~/.ssh
     state: directory
     mode: 0700
+  tags:
+    - dev_user_ssh_all
 
 
 - name: fix local keys permissions for ssh-keygen
@@ -74,6 +80,8 @@
   file:
     path: ~/bin/
     state: directory
+  tags:
+    - dev_user_utils
 
 - name: install gendiff utility
   copy:
@@ -81,16 +89,20 @@
     dest: ~/bin/
     mode: 0755
     force: no
+  tags:
+    - dev_user_utils
 
 - import_tasks: system.yml
   become: yes
   when: dev_user_setup_system |bool
-  tags: dev_user_setup_system
+  tags:
+    - dev_user_setup_system
 
 - import_tasks: go.yml
   when: dev_user_go_version != '' # noqa 602
   become: yes
   tags:
+    - dev_user_utils
     - dev_user_go
 
 - import_tasks: ngrok.yml
@@ -112,5 +124,6 @@
     name: ivansible.backup_base
     tasks_from: install_scripts.yml
   become: yes
-  tags: dev_user_install_backup
+  tags:
+    - dev_user_install_backup
 ...

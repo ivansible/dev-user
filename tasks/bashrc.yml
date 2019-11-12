@@ -76,6 +76,7 @@
     marker: "# == {mark} ANSIBLE ALIASES =="
     insertbefore: BOF
     create: yes
+  when: ansible_user_id != 'root'
 
 - name: bashrc place for completions
   lineinfile:
