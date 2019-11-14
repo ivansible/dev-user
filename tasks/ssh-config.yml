@@ -54,7 +54,7 @@
     block: |
       Host {{ inventory_hostname }}.example
         Hostname {{ ansible_fqdn | default(inventory_hostname, true) }}
-        Port {{ real_ssh_port | default(ansible_port) }}
+        Port {{ real_ssh_port | default(ansible_port) | default(22) }}
         User {{ ansible_user_id }}
         StrictHostKeyChecking no
         IdentityFile ~/.ssh/{{ (installed_keys or ['']) | first | basename | default('id_rsa', true) }}
