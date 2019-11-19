@@ -3,6 +3,8 @@
   apt_repository:
     repo: ppa:longsleep/golang-backports
     filename: golang
+  register: add_go_ppa_result
+  until: add_go_ppa_result is successful
 
 - name: install Go from ppa
   apt:
