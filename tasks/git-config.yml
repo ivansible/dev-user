@@ -20,4 +20,13 @@
       - "Wrote new git configuration in ~/.gitconfig"
   when: result_new_gitconfig is changed
         or result_gitconfig_example is changed
+
+- name: netrc file for git (optional)
+  no_log: "{{ hide_secrets |bool }}"
+  lineinfile:
+    path: ~/.netrc
+    line: "machine {{ item.host }} login {{ item.user }} password {{ item.pass }}"
+    create: true
+    mode: 0600
+  loop: "{{ dev_user_netrc }}"
 ...
