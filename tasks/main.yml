@@ -1,7 +1,4 @@
 ---
-- name: refresh facts as a non-root user
-  setup:
-
 - name: bashrc customizations
   import_tasks: bashrc.yml
   tags: dev_user_bashrc
