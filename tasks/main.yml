@@ -10,13 +10,19 @@
   tags:
     - dev_user_gitconfig
 
-- name: let tmux auto-create new sessions
+
+- name: customize tmux
   lineinfile:
     path: ~/.tmux.conf
-    line: new-session
+    line: "{{ item }}"
     create: yes
+  loop:
+    - "set-option -g history-limit 22000"
+    - "bind -n C-k clear-history"  # clear scroll buffer on ^K
+    - "new-session"                # auto-create new sessions
   tags:
     - dev_user_utils
+    - dev_user_tmux
 
 
 - name: ensure .ssh directory exists

@@ -101,6 +101,7 @@ Setting this parameter to empty list will skip this step.
 ## Tags
 
 - `dev_user_bashrc` - Customize `~/.bashrc.local`
+- `dev_user_tmux` - Customize tmux
 - `dev_user_gitconfig` - Customize `~/.gitconfig`
 - `dev_user_pubkeys` - Authorize public SSH keys
 - `dev_user_install_keys` - Install SSH keys
