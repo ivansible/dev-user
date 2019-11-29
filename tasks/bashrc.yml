@@ -50,9 +50,15 @@
 - name: bashrc extra paths
   blockinfile:
     path: ~/.local/bashrc/2path.sh
-    block: "{{ lookup('file', 'bashrc.path.sh') }}"
+    block: |
+      if [ -n "${PATH##*{{ user_bin }}}" ] && [ -n "${PATH##*{{ user_bin }}:*}" ]; then
+          export PATH={{ user_bin }}:$PATH
+      fi
     insertbefore: BOF
-    create: yes
+    marker: "# == {mark} EXTRA USER PATHS =="
+    create: true
+  vars:
+    user_bin: "{{ ansible_user_dir }}/bin"
 
 - name: bashrc local snippets
   blockinfile:
@@ -93,8 +99,8 @@
     create: yes
 
 - name: bashrc Go path
-  when: dev_user_go_version != '' # noqa 602
+  when: dev_user_golang_version != '' # noqa 602
   lineinfile:
     path: ~/.local/bashrc/2path.sh
-    line: "export PATH=~/go/bin:/usr/lib/go-{{ dev_user_go_version }}/bin:$PATH"
+    line: "export PATH=~/go/bin:/usr/lib/go-{{ dev_user_golang_version }}/bin:$PATH"
 ...

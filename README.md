@@ -62,9 +62,9 @@ By default this is _true_ and script will abort if the list of private
 key files is empty. Set this to _false_ if you want to enable empty
 list of keys.
 
-    dev_user_go_version: 1.12
+    dev_user_golang_version: ""
 
-Golang toolchain version to install.
+Golang toolchain version to install (skip install if empty).
 
 
     dev_user_group_vars: {}
@@ -100,17 +100,17 @@ Setting this parameter to empty list will skip this step.
 
 ## Tags
 
-- `dev_user_bashrc` - Customize `~/.bashrc.local`
-- `dev_user_tmux` - Customize tmux
-- `dev_user_gitconfig` - Customize `~/.gitconfig`
-- `dev_user_pubkeys` - Authorize public SSH keys
-- `dev_user_install_keys` - Install SSH keys
-- `dev_user_ssh_config` - Customize `~/.ssh/config`
-- `dev_user_ssh_all` - All tasks related to SSH keys
-- `dev_user_setup_system` - Install development packages and known host keys
-- `dev_user_known_hosts` - Update global list of known hosts
+- `dev_user_bashrc` - customize `~/.bashrc.local`
+- `dev_user_tmux` - customize tmux
+- `dev_user_gitconfig` - customize `~/.gitconfig`
+- `dev_user_pubkeys` - authorize public SSH keys
+- `dev_user_install_keys` - install SSH keys
+- `dev_user_ssh_config` - customize `~/.ssh/config`
+- `dev_user_ssh_all` - all tasks related to SSH keys
+- `dev_user_setup_system` - install development packages and known host keys
+- `dev_user_known_hosts` - update global list of known hosts
 - `dev_user_install_backup` - install backup-restore scripts on target host
-- `dev_user_go` - Install Golang toolchain
+- `dev_user_golang` - install Golang toolchain
 
 
 ## Dependencies

@@ -20,8 +20,6 @@ dev_user_git_repo_key: ""
 
 dev_user_known_host_list: "{{ dev_user_authorized_git_repos }}"
 
-dev_user_go_version: 1.13
-
 dev_user_group_vars: {}
 dev_user_host_vars: {}
 dev_user_extra_vars: {}
@@ -48,13 +46,14 @@ dev_user_rev_ssh_host: revssh
 dev_user_setup_system: true
 dev_user_pid_in_core: true
 
+dev_user_golang_version: ""
+
 dev_user_system_packages:
   - gzip
   - unzip
   - unrar
   - git
   - build-essential
-
 
 ngrok_zip_url: latest
 
@@ -64,5 +63,4 @@ git_hub_remake_links: false
 git_hub_binary: /usr/local/bin/hub
 git_hub_man_dir: /usr/local/share/man/man1
 git_hub_completion_dir: /etc/bash_completion.d
-
 ...

@@ -106,12 +106,12 @@
   tags:
     - dev_user_setup_system
 
-- import_tasks: go.yml
-  when: dev_user_go_version != '' # noqa 602
-  become: yes
+- import_tasks: golang.yml
+  when: dev_user_golang_version != '' # noqa 602
+  become: true
   tags:
     - dev_user_utils
-    - dev_user_go
+    - dev_user_golang
 
 - import_tasks: ngrok.yml
   when: dev_user_extras |bool
