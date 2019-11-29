@@ -29,5 +29,5 @@ alias vg='vagrant'
 
 alias anp='ansible-playbook'
 alias ang='ansible-galaxy'
-alias angii='ansible-galaxy import ivansible'
+alias angii='ansible-galaxy role import ivansible'
 alias vact='. .venv/bin/activate'
