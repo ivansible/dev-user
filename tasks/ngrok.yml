@@ -2,12 +2,12 @@
 - name: detect ngrok download location
   uri:
     url: https://ngrok.com/download
-    return_content: yes
+    return_content: true
     creates: /usr/local/bin/ngrok
-  #connection: local  # never use this with "creates"
+  #connection: local  # never use delegation with "creates"
   register: ngrok_download_html
-  # ngrok.com sporadically fails from .ru
-  until: "'timed out' not in ngrok_download_html.stderr |default('')"
+  # ngrok.com sporadically fails
+  until: (ngrok_download_html.msg |default('') |regex_search('timed out')) is none
   when: ngrok_zip_url == 'latest'
 
 - name: extract ngrok download location
@@ -19,8 +19,8 @@
 
 - name: install ngrok
   unarchive:
+    remote_src: true
     src: "{{ ngrok_zip_url }}"
     dest: /usr/local/bin
-    remote_src: yes
     creates: /usr/local/bin/ngrok
 ...

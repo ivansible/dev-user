@@ -1,35 +1,28 @@
 ---
 - name: detect latest hub release
-  uri:
-    url: https://github.com/github/hub/releases/latest
-    method: HEAD
-    #creates: "{{ git_hub_binary }}"
-  connection: local
+  github_release:
+    repository: github/hub
+    release: "{{ git_hub_release }}"
+    strip_v: true
+    version_script: "{{ git_hub_binary }} --version |grep 'hub version'"
+    script_regex: "[0-9.]+"
+    template: "{download_url}/hub-linux-amd64-{ver}.tgz"
   register: latest_hub_release
-  until: latest_hub_release is successful
-  when: git_hub_release == 'latest'
 
-- name: extract hub release from github page
+- name: record hub release
   set_fact:
-    git_hub_release:
-      "{{ latest_hub_release.url | basename | regex_replace('^v') }}"
-  when: latest_hub_release is not skipped
-
-- debug:
-    msg: "latest hub release: {{ git_hub_release }}"
-  run_once: true
-  when: latest_hub_release is not skipped
+    git_hub_release: "{{ latest_hub_release.release }}"
 
 - name: create parent directory for hub
   file:
-    path: "{{ git_hub_dir | dirname }}"
+    path: "{{ git_hub_dir |dirname }}"
     state: directory
 
 - name: download and unpack hub archive
   unarchive:
-    src: "{{ git_hub_archive_url }}"
-    dest: "{{ git_hub_dir | dirname }}"
-    remote_src: yes
+    remote_src: true
+    src: "{{ latest_hub_release.url }}"
+    dest: "{{ git_hub_dir |dirname }}"
     creates: "{{ git_hub_dir }}"
   register: unpack_hub_archive
 
