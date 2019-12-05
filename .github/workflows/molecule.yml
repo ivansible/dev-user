@@ -45,8 +45,7 @@ jobs:
 
       - name: Run test
         shell: bash
-        run: |
-          molecule test -s $SCENARIO
+        run: cd ivansible/$ROLE_NAME && molecule test -s $SCENARIO
 
   docker_test:
     name: tests in docker
@@ -75,6 +74,5 @@ jobs:
 
       - name: Run test
         shell: bash
-        run: |
-          molecule test -s $SCENARIO
+        run: cd ivansible/$ROLE_NAME && molecule test -s $SCENARIO
 ...
