@@ -56,6 +56,8 @@ dev_user_system_packages:
   - build-essential
 
 ngrok_zip_url: latest
+# by default proxy is controlled by target environment
+ngrok_zip_proxy: ""
 
 git_hub_release: latest
 git_hub_dir: "/usr/local/hub/hub-linux-amd64-{{ git_hub_release }}"
