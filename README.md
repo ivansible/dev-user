@@ -15,7 +15,6 @@ The role will additionally install:
   - git
   - build essential packages
   - [ngrok](https://ngrok.com/)
-  - github's [hub](https://github.com/github/hub)
   - gz-encrypt.sh and gz-decrypt.sh scripts
 
 
@@ -110,7 +109,8 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_setup_system` - install development packages and known host keys
 - `dev_user_known_hosts` - update global list of known hosts
 - `dev_user_install_backup` - install backup-restore scripts on target host
-- `dev_user_golang` - install Golang toolchain
+- `dev_user_golang` - install golang toolchain (duplicates system role, normally disabled)
+- `dev_user_all` - all of the above
 
 
 ## Dependencies
@@ -144,4 +144,4 @@ MIT
 
 ## Author Information
 
-Created in 2018 by [IvanSible](https://github.com/ivansible)
+Created in 2018-2020 by [IvanSible](https://github.com/ivansible)

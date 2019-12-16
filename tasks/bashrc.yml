@@ -3,7 +3,7 @@
   user:
     name: "{{ ansible_user_id }}"
     shell: /bin/bash
-  become: yes
+  become: true
 
 - name: place for custom bash settings
   file:
@@ -32,7 +32,7 @@
 
       #export AWS_DEFAULT_REGION=""
     insertbefore: BOF
-    create: yes
+    create: true
 
 - name: bashrc secrets, if permitted
   blockinfile:
@@ -44,7 +44,7 @@
       {% endfor %}
       {% endif %}
     insertbefore: BOF
-    create: yes
+    create: true
     mode: 0600
 
 - name: bashrc extra paths
@@ -65,14 +65,14 @@
     path: ~/.local/bashrc/3common.sh
     block: "{{ lookup('file', 'bashrc.common.sh') }}"
     insertbefore: BOF
-    create: yes
+    create: true
 
 - name: bashrc aliases for user
   blockinfile:
     path: ~/.local/bashrc/4alias.sh
     block: "{{ lookup('file', 'bashrc.alias.sh') }}"
     insertbefore: BOF
-    create: yes
+    create: true
 
 - name: bashrc aliases for root
   become: yes
@@ -81,7 +81,7 @@
     block: "{{ lookup('file', 'bashrc.alias.sh') }}"
     marker: "# == {mark} ANSIBLE ALIASES =="
     insertbefore: BOF
-    create: yes
+    create: true
   when: ansible_user_id != 'root'
 
 - name: bashrc place for completions
@@ -89,14 +89,14 @@
     path: ~/.local/bashrc/5completion.sh
     line: "# put your completions here"
     insertbefore: BOF
-    create: yes
+    create: true
 
 - name: bashrc place for user snippets
   lineinfile:
     path: ~/.local/bashrc/7user.sh
     line: "# put your snippets here"
     insertbefore: BOF
-    create: yes
+    create: true
 
 - name: bashrc Go path
   when: dev_user_golang_version != '' # noqa 602

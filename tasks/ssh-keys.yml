@@ -18,7 +18,7 @@
     - name: configure key for git repositories
       blockinfile:
         path: ~/.ssh/config
-        create: yes
+        create: true
         mode: 0600
         block: |
           Host {{ item }}
