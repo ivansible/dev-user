@@ -61,6 +61,6 @@
     marker: "# == {mark} example entry =="
     insertafter: "^#\\."
   vars:
-    installed_keys: "{{ dev_user_install_keys | bool | ternary(dev_user_installed_keys_files, []) }}"
+    installed_keys: "{{ dev_user_install_keys |bool |ternary(dev_user_installed_keys_files, []) }}"
   when: is_permitted |bool
 ...
