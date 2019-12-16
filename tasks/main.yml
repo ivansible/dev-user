@@ -83,6 +83,7 @@
     - dev_user_install_keys
     - dev_user_all
 
+
 - name: enable public keys of known hosts
   import_tasks: known-hosts.yml
   become: true
@@ -95,44 +96,12 @@
 
 - name: directory for user binaries
   file:
-    path: ~/bin/
+    path: ~/bin
     state: directory
   tags:
     - dev_user_utils
     - dev_user_all
 
-- name: install gendiff utility
-  copy:
-    src: gendiff
-    dest: ~/bin/
-    mode: 0755
-    force: false
-  tags:
-    - dev_user_utils
-    - dev_user_all
-
-- import_tasks: system.yml
-  become: true
-  when: dev_user_setup_system |bool
-  tags:
-    - dev_user_setup_system
-    - dev_user_all
-
-- import_tasks: golang.yml
-  when: dev_user_golang_version != '' # noqa 602
-  become: true
-  tags:
-    - dev_user_utils
-    - dev_user_golang
-    - dev_user_all
-
-- import_tasks: ngrok.yml
-  when: dev_user_extras |bool
-  become: true
-  tags:
-    - dev_user_install_ngrok
-    - ip4only
-    - dev_user_all
 
 - name: install backup-restore scripts on target host
   import_role:

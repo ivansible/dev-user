@@ -2,7 +2,6 @@
 # defaults for dev-user
 
 is_permitted: false
-dev_user_extras: false
 
 dev_user_git_fullname: "{{ ansible_user_id }}"
 dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventory_hostname, true)) }}"
@@ -43,20 +42,4 @@ dev_user_netrc: []
 #   pass: password
 
 dev_user_rev_ssh_host: revssh
-
-dev_user_setup_system: true
-dev_user_pid_in_core: true
-
-dev_user_golang_version: ""
-
-dev_user_system_packages:
-  - gzip
-  - unzip
-  - unrar
-  - git
-  - build-essential
-
-ngrok_zip_url: latest
-# by default proxy is controlled by target environment
-ngrok_zip_proxy: ""
 ...

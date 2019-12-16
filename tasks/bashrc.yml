@@ -75,7 +75,7 @@
     create: true
 
 - name: bashrc aliases for root
-  become: yes
+  become: true
   blockinfile:
     path: /root/.bashrc
     block: "{{ lookup('file', 'bashrc.alias.sh') }}"
@@ -97,10 +97,4 @@
     line: "# put your snippets here"
     insertbefore: BOF
     create: true
-
-- name: bashrc Go path
-  when: dev_user_golang_version != '' # noqa 602
-  lineinfile:
-    path: ~/.local/bashrc/2path.sh
-    line: "export PATH=~/go/bin:/usr/lib/go-{{ dev_user_golang_version }}/bin:$PATH"
 ...

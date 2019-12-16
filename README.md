@@ -1,26 +1,18 @@
-# Role ivansible.dev_user
+# ivansible.dev_user
 
 [![Github Test Status](https://github.com/ivansible/dev-user/workflows/Molecule%20test/badge.svg?branch=master)](https://github.com/ivansible/dev-user/actions)
 [![Travis Test Status](https://travis-ci.org/ivansible/dev-user.svg?branch=master)](https://travis-ci.org/ivansible/dev-user)
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-ivansible.dev__user-68a.svg?style=flat)](https://galaxy.ansible.com/ivansible/dev_user/)
 
 This role configures remote host and remote user for development.
-It makes some common bash aliases for remote user and installs
-common development packages (git, build-essentials, etc).
-If `dev_user_install_keys` is true, this role will also
-enable private SSH keys for remote user.
-
-The role will additionally install:
-  - gzip, unzip, unrar
-  - git
-  - build essential packages
-  - [ngrok](https://ngrok.com/)
-  - gz-encrypt.sh and gz-decrypt.sh scripts
+It creates some common bash aliases for remote user.
+If `dev_user_install_keys` is true, it will also enable private SSH keys.
+The role will additionally install `gz-encrypt.sh` and `gz-decrypt.sh` scripts
 
 
 ## Requirements
 
-This role needs private SSH key files be accessible by ansible.
+This role needs private SSH key files accessible by ansible.
 Normally these are placed under the `files/secret/keys` directory
 next to the playbook (or linked therein).
 
@@ -61,11 +53,6 @@ By default this is _true_ and script will abort if the list of private
 key files is empty. Set this to _false_ if you want to enable empty
 list of keys.
 
-    dev_user_golang_version: ""
-
-Golang toolchain version to install (skip install if empty).
-
-
     dev_user_group_vars: {}
     dev_user_host_vars: {}
     dev_user_extra_vars: {}
@@ -84,12 +71,6 @@ The role will search inventory for this host name. If found, it will
 be added to the local user ssh config file.
 
 
-    dev_user_setup_system: true
-
-This boolean triggers installation of common development packages
-(git, build-essentials, etc) and known host keys on the remote machine.
-
-
     dev_user_known_host_list: ['github.com', ...]
 
 If this list is not empty, add `github.com` and friends to the global
@@ -106,10 +87,8 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_install_keys` - install SSH keys
 - `dev_user_ssh_config` - customize `~/.ssh/config`
 - `dev_user_ssh_all` - all tasks related to SSH keys
-- `dev_user_setup_system` - install development packages and known host keys
 - `dev_user_known_hosts` - update global list of known hosts
-- `dev_user_install_backup` - install backup-restore scripts on target host
-- `dev_user_golang` - install golang toolchain (duplicates system role, normally disabled)
+- `dev_user_install_backup` - install backup-restore scripts
 - `dev_user_all` - all of the above
 
 
@@ -132,9 +111,7 @@ Setting this parameter to empty list will skip this step.
 ## Testing
 
     molecule test [-s default]
-    ansible-playbook plays-all/run-role.yml -e role=ivansible.dev_user -l vag2
-
-See settings in `host_vars/vag2/secret/test.dev_user.yml`
+    ivantory-role .dev_user vagrant-box
 
 
 ## License
