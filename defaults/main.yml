@@ -18,8 +18,6 @@ dev_user_authorized_git_repos:
   - gitlab.com
 dev_user_git_repo_key: ""
 
-dev_user_known_host_list: "{{ dev_user_authorized_git_repos }}"
-
 dev_user_group_vars: {}
 dev_user_host_vars: {}
 dev_user_extra_vars: {}

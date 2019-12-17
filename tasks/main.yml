@@ -84,16 +84,6 @@
     - dev_user_all
 
 
-- name: enable public keys of known hosts
-  import_tasks: known-hosts.yml
-  become: true
-  when: dev_user_install_keys |bool and is_permitted |bool
-  tags:
-    - dev_user_ssh_all
-    - dev_user_known_hosts
-    - dev_user_all
-
-
 - name: directory for user binaries
   file:
     path: ~/bin

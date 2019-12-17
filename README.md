@@ -21,12 +21,6 @@ next to the playbook (or linked therein).
 
 Available variables are listed below, along with default values.
 
-    real_ssh_port: <optional>
-This optional setting lets the user override an auto-detected ssh port value,
-which may be incorrect if ansible is run by the hashicorop packer or through
-a reverse ssh or port forwarder. An incorrect value is generally harmless
-though, as the role uses it only to fill in a comment.
-
     dev_user_git_fullname: <ansible_user_id>
     dev_user_git_email: <ansible_user_id>@<inventory_hostname>
 
@@ -64,18 +58,21 @@ list of keys.
 Dictionaries of exported variable names/values that will be added to the
 user's bashrc.
 
-
     dev_user_rev_ssh_host: revssh
 
 The role will search inventory for this host name. If found, it will
 be added to the local user ssh config file.
 
 
-    dev_user_known_host_list: ['github.com', ...]
+### Optional Variables
 
-If this list is not empty, add `github.com` and friends to the global
-list of known hosts (usually `/etc/ssh/ssh_known_hosts`).
-Setting this parameter to empty list will skip this step.
+    real_ssh_port: <optional>
+
+This optional setting allows user to override auto-detected ssh port,
+which may be incorrect if ansible is run by the HashiCorp packer
+or through a reverse ssh tunnel or port forwarder.
+An incorrect value is generally harmless though, as the role uses it
+only to fill in a comment.
 
 
 ## Tags
@@ -87,7 +84,6 @@ Setting this parameter to empty list will skip this step.
 - `dev_user_install_keys` - install SSH keys
 - `dev_user_ssh_config` - customize `~/.ssh/config`
 - `dev_user_ssh_all` - all tasks related to SSH keys
-- `dev_user_known_hosts` - update global list of known hosts
 - `dev_user_install_backup` - install backup-restore scripts
 - `dev_user_all` - all of the above
 
