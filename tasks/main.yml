@@ -19,9 +19,10 @@
     line: "{{ item }}"
     create: true
   loop:
-    - "set-option -g history-limit 22000"
-    - "bind -n C-k clear-history"  # clear scroll buffer on ^K
-    - "new-session"                # auto-create new sessions
+    - 'set-option -g history-limit 22000'
+    - 'bind -n C-k clear-history'  # clear scroll buffer on Ctrl-K
+    - 'bind -n C-u copy-mode -u'   # show scroll buffer on Ctrl-U
+    - 'new-session'                # auto-create new sessions
   tags:
     - dev_user_utils
     - dev_user_tmux
