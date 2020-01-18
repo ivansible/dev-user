@@ -39,28 +39,15 @@
     - dev_user_all
 
 
-- name: fix local keys permissions for ssh-keygen
-  file:
-    path: "{{ item }}"
-    mode: 0600
-  loop: "{{ dev_user_authorized_keys_files }}"
-  loop_control:
-    label: "{{ item | basename }}"
-  # connection:local fails when target is docker
-  # https://willthames.github.io/2018/07/01/connection-local-vs-delegate_to-localhost.html
-  delegate_to: localhost
-  tags:
-    - dev_user_ssh_all
-    - dev_user_ssh_pubkeys
-    - dev_user_all
-
 - name: authorize public keys
   authorized_key:
     user: "{{ ansible_user_id }}"
-    key: "{{ lookup('pipe', 'ssh-keygen -y -f \"{{ item }}\"') }}"
-    comment: "{{ item | basename | regex_replace('[.]key$') }}"
-    state: present
-  when: item != '' # noqa 602
+    key: "{{ lookup('pipe', keygen_cmd) }}"
+    comment: "{{ item |basename |regex_replace('[.]key$') }}"
+  vars:
+    # use '&&' in the pipe to fail on chmod errors
+    keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
+  when: item != ''  # noqa 602
   loop: "{{ dev_user_authorized_keys_files }}"
   loop_control:
     label: "{{ item | basename }}"
