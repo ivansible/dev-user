@@ -58,6 +58,11 @@ list of keys.
 Dictionaries of exported variable names/values that will be added to the
 user's bashrc.
 
+    dev_user_totp_keys: {}
+A dictionary of TOTP keys in the form `{e-mail: base32-key, ...}`
+for use with [OATH tool](wiki.archlinux.org/*/Google_Authenticator#Code_generation)
+or [Google authenticator](https://google-authenticator.com).
+
     dev_user_rev_ssh_host: revssh
 
 The role will search inventory for this host name. If found, it will
@@ -80,11 +85,10 @@ only to fill in a comment.
 - `dev_user_bashrc` - customize `~/.bashrc.local`
 - `dev_user_tmux` - customize tmux
 - `dev_user_gitconfig` - customize `~/.gitconfig`
-- `dev_user_pubkeys` - authorize public SSH keys
-- `dev_user_install_keys` - install SSH keys
+- `dev_user_ssh_keys` - authorize public SSH keys, install SSH keys
 - `dev_user_ssh_config` - customize `~/.ssh/config`
-- `dev_user_ssh_all` - all tasks related to SSH keys
-- `dev_user_install_backup` - install backup-restore scripts
+- `dev_user_ssh_all` - all tasks related to SSH and keys
+- `dev_user_utils` - install backup-restore scripts, OATH tool, various utilities
 - `dev_user_all` - all of the above
 
 

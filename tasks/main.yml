@@ -1,4 +1,12 @@
 ---
+- name: install oath tool
+  apt:
+    name: oathtool
+  become: true
+  tags:
+    - dev_user_utils
+    - dev_user_all
+
 - name: bashrc customizations
   import_tasks: bashrc.yml
   tags:
@@ -53,7 +61,7 @@
     label: "{{ item | basename }}"
   tags:
     - dev_user_ssh_all
-    - dev_user_ssh_pubkeys
+    - dev_user_ssh_keys
     - dev_user_all
 
 - name: generate ssh config
@@ -68,7 +76,7 @@
   when: dev_user_install_keys |bool
   tags:
     - dev_user_ssh_all
-    - dev_user_install_keys
+    - dev_user_ssh_keys
     - dev_user_all
 
 
@@ -87,6 +95,6 @@
     tasks_from: install_scripts.yml
   become: true
   tags:
-    - dev_user_install_backup
+    - dev_user_utils
     - dev_user_all
 ...
