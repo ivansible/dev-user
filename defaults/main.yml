@@ -31,13 +31,13 @@ dev_user_host_secrets: {}
 dev_user_extra_secrets: {}
 
 dev_user_totp_keys: {}
-_dev_user_totp_secrets:
+dev_user_totp_secrets:
   TOTP_KEYS: "{{ dev_user_totp_keys |default({},true) |dictsort |map('join',':') |join(',') }}"
 
-dev_user_all_secrets: "{{ dev_user_group_secrets
-                        | combine(dev_user_host_secrets)
-                        | combine(dev_user_extra_secrets)
-                        | combine(_dev_user_totp_secrets)
+dev_user_all_secrets: "{{ dev_user_group_secrets |default({},true)
+                        | combine(dev_user_host_secrets |default({},true))
+                        | combine(dev_user_extra_secrets |default({},true))
+                        | combine(dev_user_totp_secrets |default({},true))
                        }}"
 
 dev_user_netrc: []
