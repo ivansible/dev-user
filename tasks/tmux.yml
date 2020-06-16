@@ -1,0 +1,8 @@
+---
+- name: customize tmux
+  lineinfile:
+    path: ~/.tmux.conf
+    line: "{{ item }}"
+    create: true
+  loop: "{{ dev_user_tmux_settings }}"
+...

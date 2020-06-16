@@ -1,0 +1,20 @@
+---
+- name: ensure .ssh directory exists
+  file:
+    path: ~/.ssh
+    state: directory
+    mode: 0700
+
+- name: authorize public keys
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('pipe', keygen_cmd) }}"
+    comment: "{{ item |basename |regex_replace('[.]key$') }}"
+  vars:
+    # use '&&' in the pipe to fail on chmod errors
+    keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
+  when: item != ''  # noqa 602
+  loop: "{{ dev_user_authorized_keys_files }}"
+  loop_control:
+    label: "{{ item | basename }}"
+...

@@ -46,4 +46,10 @@ dev_user_netrc: []
 #   pass: password
 
 dev_user_rev_ssh_host: revssh
+
+dev_user_tmux_settings:
+  - 'set-option -g history-limit 22000'
+  - 'bind -n C-k clear-history'  # clear scroll buffer on Ctrl-K
+  - 'bind -n C-u copy-mode -u'   # show scroll buffer on Ctrl-U
+  - 'new-session'                # auto-create new sessions
 ...

@@ -22,47 +22,19 @@
 
 
 - name: customize tmux
-  lineinfile:
-    path: ~/.tmux.conf
-    line: "{{ item }}"
-    create: true
-  loop:
-    - 'set-option -g history-limit 22000'
-    - 'bind -n C-k clear-history'  # clear scroll buffer on Ctrl-K
-    - 'bind -n C-u copy-mode -u'   # show scroll buffer on Ctrl-U
-    - 'new-session'                # auto-create new sessions
+  import_tasks: tmux.yml
   tags:
     - dev_user_utils
     - dev_user_tmux
     - dev_user_all
 
 
-- name: ensure .ssh directory exists
-  file:
-    path: ~/.ssh
-    state: directory
-    mode: 0700
-  tags:
-    - dev_user_ssh_all
-    - dev_user_all
-
-
 - name: authorize public keys
-  authorized_key:
-    user: "{{ ansible_user_id }}"
-    key: "{{ lookup('pipe', keygen_cmd) }}"
-    comment: "{{ item |basename |regex_replace('[.]key$') }}"
-  vars:
-    # use '&&' in the pipe to fail on chmod errors
-    keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
-  when: item != ''  # noqa 602
-  loop: "{{ dev_user_authorized_keys_files }}"
-  loop_control:
-    label: "{{ item | basename }}"
+  import_tasks: ssh-authorize.yml
   tags:
     - dev_user_ssh_all
-    - dev_user_ssh_keys
     - dev_user_all
+    - dev_user_ssh_keys
 
 - name: generate ssh config
   import_tasks: ssh-config.yml
