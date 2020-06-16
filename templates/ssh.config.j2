@@ -1,3 +1,13 @@
 # ssh config
-
+{% for item in dev_user_ssh_config_hosts |default([],true) %}
+Host {{ item.alias }}
+  Hostname {{ item.host }}
+{%   if item.port is defined %}
+  Port {{ item.port }}
+{%   endif %}
+{%   if item.user is defined %}
+  User {{ item.user }}
+{%   endif %}
+{% endfor %}
+{{ dev_user_ssh_config_footer |default('',true) }}
 #.
