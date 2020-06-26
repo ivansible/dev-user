@@ -16,6 +16,12 @@
     line: "for bashlet in $(ls -1 ~/.local/bashrc/*.sh); do . $bashlet; done  # ansible-managed"
     regexp: "~/[.]local/bashrc/|[.]bashrc[.]local\\b"
 
+- name: perform cleanup on bash logout
+  blockinfile:
+    path: ~/.bash_logout
+    block: "{{ lookup('file', 'bashrc/logout.sh') }}"
+    create: true
+
 - name: bashrc environment variables
   blockinfile:
     path: ~/.local/bashrc/1env.sh
@@ -63,14 +69,22 @@
 - name: bashrc local snippets
   blockinfile:
     path: ~/.local/bashrc/3common.sh
-    block: "{{ lookup('file', 'bashrc.common.sh') }}"
+    block: "{{ lookup('file', 'bashrc/common.sh') }}"
     insertbefore: BOF
+    create: true
+
+- name: bashrc setup ssh-agent
+  blockinfile:
+    path: ~/.local/bashrc/3common.sh
+    block: "{{ lookup('file', 'bashrc/ssh-agent.sh') }}"
+    marker: "# == {mark} SETUP SSH-AGENT =="
+    insertafter: EOF
     create: true
 
 - name: bashrc aliases for user
   blockinfile:
     path: ~/.local/bashrc/4alias.sh
-    block: "{{ lookup('file', 'bashrc.alias.sh') }}"
+    block: "{{ lookup('file', 'bashrc/alias.sh') }}"
     insertbefore: BOF
     create: true
 
@@ -78,7 +92,7 @@
   become: true
   blockinfile:
     path: /root/.bashrc
-    block: "{{ lookup('file', 'bashrc.alias.sh') }}"
+    block: "{{ lookup('file', 'bashrc/alias.sh') }}"
     marker: "# == {mark} ANSIBLE ALIASES =="
     insertbefore: BOF
     create: true
