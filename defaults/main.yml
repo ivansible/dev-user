@@ -51,6 +51,7 @@ dev_user_netrc: []
 
 dev_user_rev_ssh_host: revssh
 
+dev_user_force_settings: false
 dev_user_tmux_settings:
   - 'set-option -g history-limit 22000'
   - 'bind -n C-k clear-history'  # clear scroll buffer on Ctrl-K

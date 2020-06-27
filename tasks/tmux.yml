@@ -5,4 +5,10 @@
     line: "{{ item }}"
     create: true
   loop: "{{ dev_user_tmux_settings }}"
+
+- name: customize top
+  copy:
+    src: top.rc
+    dest: ~/.toprc
+    force: "{{ dev_user_force_settings |bool }}"
 ...
