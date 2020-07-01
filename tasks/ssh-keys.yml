@@ -23,6 +23,8 @@
         block: |
           Host {{ item }}
             Hostname {{ item }}
+            Port 22
+            User git
             IdentityFile ~/.ssh/{{ dev_user_git_repo_key |basename }}
         marker: "# == {mark} git {{ item }} =="
         insertafter: "^#\\."
