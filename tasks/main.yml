@@ -1,7 +1,7 @@
 ---
-- name: install oath tool
+- name: install user utils (oath tool, pssh, etc)
   apt:
-    name: oathtool
+    name: oathtool,pssh
   become: true
   tags:
     - dev_user_utils

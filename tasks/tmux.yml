@@ -1,4 +1,12 @@
 ---
+- name: tmux bash completion (optional)
+  get_url:
+    url: https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/master/completions/tmux
+    dest: /etc/bash_completion.d/tmux
+    force: "{{ dev_user_force_settings |bool }}"
+  become: true
+  ignore_errors: true
+
 - name: customize tmux
   lineinfile:
     path: ~/.tmux.conf

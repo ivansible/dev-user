@@ -111,4 +111,5 @@
     line: "# put your snippets here"
     insertbefore: BOF
     create: true
+    mode: 0600
 ...
