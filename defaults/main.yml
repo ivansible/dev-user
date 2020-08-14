@@ -1,26 +1,35 @@
 ---
-# defaults for dev-user
+## defaults for dev-user
 
 is_permitted: false
 
 dev_user_git_fullname: "{{ ansible_user_id }}"
 dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventory_hostname, true)) }}"
 
-dev_user_install_keys: false
-dev_user_require_keys: true
+## by default, all keys are accepted, but only the first one is deployed
+dev_user_ssh_keys_accept: "{{ [ ssh_keys_accept |d(lin_ssh_keys_files) |d([],true) ]
+                            | flatten |select |map('regex_findall','[^,]+') |flatten
+                           }}"
+dev_user_ssh_keys_deploy: "{{ [ ssh_keys_deploy |d(dev_user_ssh_keys_accept[0:1]) ]
+                            | flatten |select |map('regex_findall','[^,]+') |flatten
+                           }}"
+dev_user_ssh_keys_revoke: "{{ [ ssh_keys_revoke |d([],true) ]
+                            | flatten |select |map('regex_findall','[^,]+') |flatten
+                           }}"
+ssh_keys_accept: ~
+ssh_keys_deploy: ~
+ssh_keys_revoke: ~
+ssh_keys_git: ~
 
-# by default, all keys are authorized, but only the first one is installed
-dev_user_authorized_keys_files: "{{ lin_ssh_keys_files }}"
-dev_user_installed_keys_files: "{{ dev_user_authorized_keys_files[0:1] }}"
+## note: git keys can be a list, but only the first one is configured
+dev_user_ssh_keys_git: "{{ [ ssh_keys_git |d([],true) ]
+                         | flatten |select |map('regex_findall','[^,]+') |flatten
+                        }}"
+dev_user_authorized_git_repos: [github.com, gitlab.com]
 
 dev_user_ssh_config_hosts: []
 dev_user_ssh_config_footer: ''
 dev_user_ssh_config_override: false
-
-dev_user_authorized_git_repos:
-  - github.com
-  - gitlab.com
-dev_user_git_repo_key: ""
 
 dev_user_group_vars: {}
 dev_user_host_vars: {}

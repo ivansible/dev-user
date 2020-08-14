@@ -1,38 +1,38 @@
 ---
-- block:
-    - name: verify the keys to copy
-      assert:
-        that: "dev_user_installed_keys_files |length > 0"
-        msg: "access keys not found!"
-      when: dev_user_require_keys |bool
+- name: install new private ssh keys
+  copy:
+    src: "{{ item }}"
+    dest: ~/.ssh/
+    mode: 0600
+  loop: "{{ dev_user_ssh_keys_deploy }}"
+  loop_control:
+    label: "{{ item |basename }}"
 
-    - name: install ssh keys
-      copy:
-        src: "{{ item }}"
-        dest: ~/.ssh/
-        mode: 0600
-      loop: "{{ dev_user_installed_keys_files }}"
-      loop_control:
-        label: "{{ item | basename }}"
+- name: remove obsolete private ssh keys
+  file:
+    path: ~/.ssh/{{ item |basename }}
+    state: absent
+  loop: "{{ dev_user_ssh_keys_revoke }}"
+  loop_control:
+    label: "{{ item |basename }}"
 
-    - name: configure key for git repositories
-      blockinfile:
-        path: ~/.ssh/config
-        create: true
-        mode: 0600
-        block: |
-          Host {{ item }}
-            Hostname {{ item }}
-            Port 22
-            User git
-            IdentityFile ~/.ssh/{{ dev_user_git_repo_key |basename }}
-        marker: "# == {mark} git {{ item }} =="
-        insertafter: "^#\\."
-      when: is_permitted |bool
-            and dev_user_git_repo_key != '' # noqa 602
-      loop: "{{ dev_user_authorized_git_repos }}"
-  tags:
-    - dev_user_ssh_all
-    - dev_user_ssh_config
-    - dev_user_install_keys
+- name: configure keys for git repositories
+  blockinfile:
+    path: ~/.ssh/config
+    create: true
+    mode: 0600
+    block: |
+      Host {{ item }}
+        Hostname {{ item }}
+        Port 22
+        User git
+        IdentityFile ~/.ssh/{{ git_ssh_key |basename }}
+    marker: "# == {mark} git {{ item }} =="
+    insertafter: "^#\\."
+  loop: "{{ git_remotes }}"
+  when: git_ssh_key and is_permitted |bool
+  vars:
+    git_ssh_key: "{{ dev_user_ssh_keys_git |d([''],true) |first }}"
+    git_remotes: "{{ dev_user_authorized_git_repos |d([],true) }}"
+  tags: dev_user_ssh_config
 ...

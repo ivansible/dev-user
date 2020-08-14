@@ -45,7 +45,6 @@
 
 - name: install ssh keys
   import_tasks: ssh-keys.yml
-  when: dev_user_install_keys |bool
   tags:
     - dev_user_ssh_all
     - dev_user_ssh_keys

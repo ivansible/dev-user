@@ -5,16 +5,29 @@
     state: directory
     mode: 0700
 
-- name: authorize public keys
+- name: authorize new public ssh keys
   authorized_key:
     user: "{{ ansible_user_id }}"
     key: "{{ lookup('pipe', keygen_cmd) }}"
-    comment: "{{ item |basename |regex_replace('[.]key$') }}"
+    comment: "{{ key_name }}"
+    state: present
   vars:
+    key_name: "{{ item |basename |regex_replace('[.]key$') }}"
     # use '&&' in the pipe to fail on chmod errors
     keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
-  when: item != ''  # noqa 602
-  loop: "{{ dev_user_authorized_keys_files }}"
+  loop: "{{ dev_user_ssh_keys_accept }}"
   loop_control:
-    label: "{{ item | basename }}"
+    label: "{{ key_name }}"
+
+- name: revoke obsolete public ssh keys
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('pipe', keygen_cmd) }}"
+    state: absent
+  vars:
+    key_name: "{{ item |basename |regex_replace('[.]key$') }}"
+    keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
+  loop: "{{ dev_user_ssh_keys_revoke }}"
+  loop_control:
+    label: "{{ key_name }}"
 ...

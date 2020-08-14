@@ -6,7 +6,7 @@
 
 This role configures remote host and remote user for development.
 It creates some common bash aliases for remote user.
-If `dev_user_install_keys` is true, it will also enable private SSH keys.
+It will also enable private SSH keys, if any.
 The role will additionally install `gz-encrypt.sh` and `gz-decrypt.sh` scripts
 
 
@@ -27,25 +27,24 @@ Available variables are listed below, along with default values.
 Full name and email to fill in git configuration.
 
 
-    dev_user_install_keys: true
+    dev_user_ssh_keys_accept: <derived from ssh_keys_accept>
+The list of private key files to accept.
+Normally this is derived from `ssh_keys_accept` (string or list),
+which can be provided as a playbook CLI argument.
+Defaults to the list of playbook ssh keys `<playbook_dir>/files/secret/keys/*.key`
+recorded in `lin_ssh_keys_files` and inherited from the role `lin_base`.
 
-If this setting is *true* , the role will install private SSH keys
-for remote user under `~/.ssh`. Otherwise, this step will be skipped.
-
-    dev_user_authorized_keys_files: <playbook_dir>/files/secret/keys/*.key
-The list of private key files to authorize.
-It can be overridden in `group_vars/permitted/secret/dev-user.yml`.
-
-    dev_user_installed_keys_files: <playbook_dir>/files/secret/keys/*.key
+    dev_user_ssh_keys_deploy: <first accepted ssh key or derived from ssh_keys_deploy>
 The list of private key files to install.
-The list must not be empty, if `dev_user_install_keys` is *true*.
-By default, it is the first of authorized keys.
+By default, it's the first accepted ssh key, if any.
 
-    dev_user_require_keys: true
+    dev_user_ssh_keys_revoke: <derived from ssh_keys_revoke>
+The list of obsolete ssh keys (public or private) to decommit.
+By default none.
 
-By default this is _true_ and script will abort if the list of private
-key files is empty. Set this to _false_ if you want to enable empty
-list of keys.
+    dev_user_ssh_keys_git: <derived from ssh_keys_git>
+    dev_user_authorized_git_repos: [github.com, gitlab.com]
+Configure given ssh keys (actually, the first one) to access given git remotes.
 
     dev_user_group_vars: {}
     dev_user_host_vars: {}
@@ -103,7 +102,6 @@ only to fill in a comment.
     - hosts: vag2
       roles:
         - role: ivansible.dev_user
-          dev_user_install_keys: false
           dev_user_extra_vars:
             http_proxy: http://my.proxy.com:8080
 

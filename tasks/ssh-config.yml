@@ -57,10 +57,10 @@
         Port {{ real_ssh_port |default(ansible_port) |default(22) }}
         User {{ ansible_user_id }}
         StrictHostKeyChecking no
-        IdentityFile ~/.ssh/{{ (installed_keys or ['']) | first | basename | default('id_rsa', true) }}
+        IdentityFile ~/.ssh/{{ primary_key |d('id_rsa', true) }}
     marker: "# == {mark} example entry =="
     insertafter: "^#\\."
   vars:
-    installed_keys: "{{ dev_user_install_keys |bool |ternary(dev_user_installed_keys_files, []) }}"
+    primary_key: "{{ dev_user_ssh_keys_deploy |d([''], true) |first |basename }}"
   when: is_permitted |bool
 ...
