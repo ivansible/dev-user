@@ -22,6 +22,54 @@
     block: "{{ lookup('file', 'bashrc/logout.sh') }}"
     create: true
 
+- name: surgically implant interactive login block in bashrc
+  block:
+    - name: implant marker one of interactive block in bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "# == BEGIN {{ marker }} =="
+        insertafter: "{{ point_one }}"
+        firstmatch: true
+        validate: grep -Eq "{{ point_one }}" %s
+
+    - name: implant marker two of interactive block in bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "# == END {{ marker }} =="
+        insertbefore: "{{ point_two }}"
+        firstmatch: true
+        validate: grep -Eq "{{ point_two }}" %s
+
+    - name: implant interactive login block in bashrc
+      blockinfile:
+        path: ~/.bashrc
+        block: |+
+          case "$_SSH_,$-" in
+              i,*) shopt -s expand_aliases;;
+              *i*) ;;
+                *) return;;
+          esac
+
+        marker: "# == {mark} {{ marker }} =="
+  rescue:
+    - name: revert interactive block markers from bashrc
+      lineinfile:
+        path: ~/.bashrc
+        regexp: "^# == (BEGIN|END) {{ marker }} =="
+        state: absent
+      register: _bashrc_remove_interactive_markers
+      until: _bashrc_remove_interactive_markers is not changed
+
+    - name: failed to find place for interactive block in bashrc
+      fail:
+        msg: failed to find place for interactive block in bashrc
+  vars:
+    point_one: "^# If not running interactively"
+    point_two: "^# don't put duplicate lines"
+    marker: "detect interactive login"
+  when: dev_user_ssh_interactive |bool
+  tags: dev_user_ssh_interactive
+
 - name: bashrc environment variables
   blockinfile:
     path: ~/.local/bashrc/1env.sh

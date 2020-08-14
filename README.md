@@ -42,6 +42,11 @@ By default, it's the first accepted ssh key, if any.
 The list of obsolete ssh keys (public or private) to decommit.
 By default none.
 
+    dev_user_ssh_interactive: false
+    dev_user_ssh_keys_interactive: <derived from ssh_keys_interactive>
+Subset of accepted ssh keys with interactive features enabled such as bash aliases.
+By default none.
+
     dev_user_ssh_keys_git: <derived from ssh_keys_git>
     dev_user_authorized_git_repos: [github.com, gitlab.com]
 Configure given ssh keys (actually, the first one) to access given git remotes.

@@ -10,14 +10,20 @@
     user: "{{ ansible_user_id }}"
     key: "{{ lookup('pipe', keygen_cmd) }}"
     comment: "{{ key_name }}"
+    key_options: "{{ key_options }}"
     state: present
   vars:
     key_name: "{{ item |basename |regex_replace('[.]key$') }}"
     # use '&&' in the pipe to fail on chmod errors
     keygen_cmd: 'chmod 600 "{{ item }}" && ssh-keygen -y -f "{{ item }}"'
+    interactive: "{{ dev_user_ssh_interactive |bool
+                     and item in dev_user_ssh_keys_interactive }}"
+    key_options: "{{ interactive |ternary(interactive_env, omit) }}"
+    interactive_env: 'environment="BASH_ENV=~/.bashrc",environment="_SSH_=i"'
   loop: "{{ dev_user_ssh_keys_accept }}"
   loop_control:
-    label: "{{ key_name }}"
+    label: "{{ key_name }}{{ interactive |ternary('+','') }}"
+  tags: dev_user_ssh_interactive
 
 - name: revoke obsolete public ssh keys
   authorized_key:

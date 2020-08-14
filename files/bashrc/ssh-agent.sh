@@ -11,4 +11,6 @@ _setup_ssh_agent() {
   || echo "no ssh keys"
 }
 
-_setup_ssh_agent
+## skip ssh-agent on non-interactive bashrc
+## this prevents ram thrashing due to frequent logins
+[[ $_SSH_ =~ i ]] || _setup_ssh_agent

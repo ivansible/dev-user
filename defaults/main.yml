@@ -21,6 +21,13 @@ ssh_keys_deploy: ~
 ssh_keys_revoke: ~
 ssh_keys_git: ~
 
+## bash aliases also require PermitUserEnvironment enabled in SSH daemon
+dev_user_ssh_interactive: false
+dev_user_ssh_keys_interactive: "{{ [ ssh_keys_interactive |d([],true) ]
+                                 | flatten |select |map('regex_findall','[^,]+') |flatten
+                                }}"
+ssh_keys_interactive: ~
+
 ## note: git keys can be a list, but only the first one is configured
 dev_user_ssh_keys_git: "{{ [ ssh_keys_git |d([],true) ]
                          | flatten |select |map('regex_findall','[^,]+') |flatten
