@@ -4,6 +4,7 @@
     url: https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/master/completions/tmux
     dest: /etc/bash_completion.d/tmux
     force: "{{ dev_user_force_settings |bool }}"
+    mode: 0644
   become: true
   ignore_errors: true
 
@@ -12,11 +13,13 @@
     path: ~/.tmux.conf
     line: "{{ item }}"
     create: true
+    mode: 0644
   loop: "{{ dev_user_tmux_settings }}"
 
 - name: customize top
   copy:
     src: top.rc
     dest: ~/.toprc
+    mode: 0644
     force: "{{ dev_user_force_settings |bool }}"
 ...
