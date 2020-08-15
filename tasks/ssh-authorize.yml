@@ -36,4 +36,11 @@
   loop: "{{ dev_user_ssh_keys_revoke }}"
   loop_control:
     label: "{{ key_name }}"
+
+- name: fallback to empty authorized keys file if no keys were provided
+  copy:
+    dest: ~/.ssh/authorized_keys
+    content: ""
+    mode: 0600
+    force: false
 ...
