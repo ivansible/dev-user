@@ -160,6 +160,12 @@
     create: true
     mode: 0644
 
+- name: add git completions for alias 'g'
+  lineinfile:
+    path: ~/.local/bashrc/5completion.sh
+    line: '__git_complete g __git_main 2>/dev/null'
+    regexp: '^__git_complete g __git_main'
+
 - name: bashrc place for user snippets
   lineinfile:
     path: ~/.local/bashrc/7user.sh
