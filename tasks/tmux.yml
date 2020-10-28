@@ -7,6 +7,8 @@
     mode: 0644
   become: true
   ignore_errors: true
+  ## get_url always reports as changed in check mode
+  when: not ansible_check_mode
 
 - name: customize tmux
   lineinfile:
