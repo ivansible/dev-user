@@ -9,6 +9,7 @@
   file:
     path: ~/.local/bashrc
     state: directory
+    mode: 0755
 
 - name: source local settings from bashrc
   lineinfile:
@@ -21,6 +22,7 @@
     path: ~/.bash_logout
     block: "{{ lookup('file', 'bashrc/logout.sh') }}"
     create: true
+    mode: 0644
 
 - name: surgically implant interactive login block in bashrc
   block:

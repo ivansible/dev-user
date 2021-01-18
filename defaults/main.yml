@@ -3,8 +3,12 @@
 
 is_permitted: false
 
+## GIT
+
 dev_user_git_fullname: "{{ ansible_user_id }}"
-dev_user_git_email: "{{ ansible_user_id + '@' + (ansible_fqdn | default(inventory_hostname, true)) }}"
+dev_user_git_email: "{{ ansible_user_id }}@{{ (ansible_fqdn |d(inventory_hostname, true) }}"
+
+## SSH KEYS
 
 ## by default, all keys are accepted, but only the first one is deployed
 dev_user_ssh_keys_accept: "{{ [ ssh_keys_accept |d(lin_ssh_keys_files) |d([],true) ]
@@ -21,6 +25,8 @@ ssh_keys_deploy: ~
 ssh_keys_revoke: ~
 ssh_keys_git: ~
 
+## INTERACTIVE SSH
+
 ## bash aliases also require PermitUserEnvironment enabled in SSH daemon
 dev_user_ssh_interactive: false
 dev_user_ssh_keys_interactive: "{{ [ ssh_keys_interactive |d([],true) ]
@@ -28,11 +34,15 @@ dev_user_ssh_keys_interactive: "{{ [ ssh_keys_interactive |d([],true) ]
                                 }}"
 ssh_keys_interactive: ~
 
+## GIT SSH
+
 ## note: git keys can be a list, but only the first one is configured
 dev_user_ssh_keys_git: "{{ [ ssh_keys_git |d([],true) ]
                          | flatten |select |map('regex_findall','[^,]+') |flatten
                         }}"
 dev_user_authorized_git_repos: [github.com, gitlab.com]
+
+## VARS
 
 dev_user_ssh_config_hosts: []
 dev_user_ssh_config_footer: ''
@@ -45,6 +55,8 @@ dev_user_extra_vars: {}
 dev_user_all_vars: "{{ dev_user_group_vars
                      | combine(dev_user_host_vars)
                      | combine(dev_user_extra_vars) }}"
+
+## SECRETS
 
 dev_user_group_secrets: {}
 dev_user_host_secrets: {}
@@ -60,6 +72,8 @@ dev_user_all_secrets: "{{ dev_user_group_secrets |default({},true)
                         | combine(dev_user_totp_secrets |default({},true))
                        }}"
 
+## MISC
+
 dev_user_netrc: []
 # - host: hostname
 #   user: username
@@ -68,9 +82,24 @@ dev_user_netrc: []
 dev_user_rev_ssh_host: revssh
 
 dev_user_force_settings: false
+
+## TMUX
+
 dev_user_tmux_settings:
+  ## keep global tmux history
+  - 'set-option -g history-file ~/.tmux-history'
   - 'set-option -g history-limit 22000'
-  - 'bind -n C-k clear-history'  # clear scroll buffer on Ctrl-K
-  - 'bind -n C-u copy-mode -u'   # show scroll buffer on Ctrl-U
-  - 'new-session'                # auto-create new sessions
+  ## prefix is ^S, but keep ^B for juice-ssh swipes
+  - 'set -g prefix C-s'
+  - 'set -g prefix2 C-b'
+  - 'bind C-s send-prefix'
+  # - 'unbind C-b'
+  - 'set -sg escape-time 1'
+  ## show scroll buffer on ^U (also F12 for juice-ssh)
+  - 'bind -n C-u copy-mode -u'
+  - 'bind -n F12 copy-mode -u'
+  ## clear scroll buffer on ^K (bash also has ^L to clear screen)
+  - 'bind -n C-k clear-history'
+  ## auto-create new sessions
+  - 'new-session'
 ...
