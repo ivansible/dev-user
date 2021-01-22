@@ -1,7 +1,6 @@
 # ivansible.dev_user
 
-[![Github Test Status](https://github.com/ivansible/dev-user/workflows/Molecule%20test/badge.svg?branch=master)](https://github.com/ivansible/dev-user/actions)
-[![Travis Test Status](https://travis-ci.org/ivansible/dev-user.svg?branch=master)](https://travis-ci.org/ivansible/dev-user)
+[![Github Test Status](https://github.com/ivansible/dev-user/workflows/test/badge.svg?branch=master)](https://github.com/ivansible/dev-user/actions)
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-ivansible.dev__user-68a.svg?style=flat)](https://galaxy.ansible.com/ivansible/dev_user/)
 
 This role configures remote host and remote user for development.
@@ -124,4 +123,4 @@ MIT
 
 ## Author Information
 
-Created in 2018-2020 by [IvanSible](https://github.com/ivansible)
+Created in 2018-2021 by [IvanSible](https://github.com/ivansible)
