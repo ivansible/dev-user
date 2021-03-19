@@ -25,6 +25,11 @@ Available variables are listed below, along with default values.
 
 Full name and email to fill in git configuration.
 
+    dev_user_git_push: upstream
+Default git push mode: upstream or simple
+
+    dev_user_git_force: false
+Allows to override user's global git config.
 
     dev_user_ssh_keys_accept: <derived from ssh_keys_accept>
 The list of private key files to accept.
@@ -87,7 +92,7 @@ only to fill in a comment.
 
 - `dev_user_bashrc` - customize `~/.bashrc.local`
 - `dev_user_tmux` - customize tmux
-- `dev_user_gitconfig` - customize `~/.gitconfig`
+- `dev_user_git` - customize `~/.gitconfig` (aliased as `dev_user_gitconfig`)
 - `dev_user_ssh_keys` - authorize public SSH keys, install SSH keys
 - `dev_user_ssh_config` - customize `~/.ssh/config`
 - `dev_user_ssh_all` - all tasks related to SSH and keys

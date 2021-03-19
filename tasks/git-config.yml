@@ -4,7 +4,7 @@
     src: gitconfig.j2
     dest: ~/.gitconfig
     mode: 0640
-    force: false
+    force: "{{ dev_user_git_force |bool }}"
   register: result_new_gitconfig
 
 - name: example git configuration
@@ -12,6 +12,7 @@
     src: gitconfig.j2
     dest: ~/.gitconfig.example
     mode: 0640
+    force: "{{ dev_user_git_force |bool }}"
   register: result_gitconfig_example
 
 - name: warn about new gitconfig
@@ -19,7 +20,7 @@
     msg:
       - "Wrote new git configuration in ~/.gitconfig"
   when: result_new_gitconfig is changed
-        or result_gitconfig_example is changed
+     or result_gitconfig_example is changed
 
 - name: netrc file for git (optional)
   no_log: "{{ hide_secrets |bool }}"

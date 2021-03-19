@@ -4,7 +4,9 @@
 [core]
     editor = vim
 [push]
-    default = simple
+    default = {{ dev_user_git_push }}
+[pull]
+    ff = only
 [alias]
     a = add
     b = branch
@@ -17,7 +19,9 @@
     co = checkout
     d = diff -M -D
     di = diff --cached -M -D
-    f = fetch -v
+    dw = diff -M -D --word-diff
+    f = fetch
+    fp = fetch --tags --prune
     gca = gc --aggressive --prune=all
     lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset)%C(bold yellow)%d%C(reset)'
     lo = log --oneline --graph --decorate

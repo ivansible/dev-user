@@ -18,6 +18,7 @@
   when: is_permitted |bool
   tags:
     - dev_user_gitconfig
+    - dev_user_git
     - dev_user_all
 
 

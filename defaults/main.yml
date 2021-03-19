@@ -6,7 +6,9 @@ is_permitted: false
 ## GIT
 
 dev_user_git_fullname: "{{ ansible_user_id }}"
-dev_user_git_email: "{{ ansible_user_id }}@{{ (ansible_fqdn |d(inventory_hostname, true) }}"
+dev_user_git_email: "{{ ansible_user_id }}@{{ ansible_fqdn |d(inventory_hostname, true) }}"
+dev_user_git_push: upstream
+dev_user_git_force: false
 
 ## SSH KEYS
 
