@@ -39,6 +39,9 @@ provisioner:
         ansible_user: ansible
         # test sshd tweaks in docker
         lin_use_ssh: true
+  config_options:
+    defaults:
+      verbosity: 1
   lint:
     name: ansible-lint
 verifier:
