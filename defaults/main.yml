@@ -82,6 +82,7 @@ dev_user_netrc: []
 #   pass: password
 
 dev_user_rev_ssh_host: revssh
+dev_user_example_domain: example.com
 
 dev_user_force_settings: false
 

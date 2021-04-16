@@ -42,8 +42,9 @@
         msg:
           - "Create reverse forwarding: ssh -R {{ revssh_port }}:{{ revssh_host }}:{{ ansible_port }} -p{{ ansible_port }} {{ ansible_fqdn }}"
           - "Get back via reverse port: ansible revssh -m ping"
-  when: dev_user_rev_ssh_host in hostvars
-        and is_permitted |bool
+  when:
+    - dev_user_rev_ssh_host in hostvars
+    - is_permitted |bool
 
 
 - name: insert example entry in ssh config
@@ -53,8 +54,8 @@
     mode: 0600
     block: |
       Host {{ inventory_hostname }}.example
-        Hostname {{ ansible_fqdn |default(inventory_hostname, true) }}
-        Port {{ real_ssh_port |default(ansible_port) |default(22) }}
+        Hostname {{ example_fqdn |d(inventory_hostname, true) }}
+        Port {{ real_ssh_port |d(ansible_port) |d(22) }}
         User {{ ansible_user_id }}
         StrictHostKeyChecking no
         IdentityFile ~/.ssh/{{ primary_key |d('id_rsa', true) }}
@@ -62,5 +63,13 @@
     insertafter: "^#\\."
   vars:
     primary_key: "{{ dev_user_ssh_keys_deploy |d([''], true) |first |basename }}"
+    ## On github runners the ansible_fqdn value sometimes includes
+    ## a domain like `.internal.cloudapp.net` but sometimes doesn't,
+    ## resulting in sporadic idempotence failures.
+    ## As a workaround, we force a fixed domain here.
+    example_fqdn: "{{ fixed_fqdn if fixed_domain else fact_fqdn }}"
+    fixed_fqdn: "{{ fact_fqdn |regex_replace('^([^.]+).*$', '\\1.'+fixed_domain) }}"
+    fixed_domain: "{{ dev_user_example_domain |d('',true) }}"
+    fact_fqdn: "{{ ansible_fqdn |d('',true) }}"
   when: is_permitted |bool
 ...
