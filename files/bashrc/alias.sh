@@ -39,7 +39,7 @@ alias jcu='sudo journalctl -u'
 alias kc='kubectl'
 alias vg='vagrant'
 alias ygc='sudo yggdrasilctl'
-alias rcl='rclone'
+alias rc='rclone'
 
 alias anp='ansible-playbook'
 alias ang='ansible-galaxy'
