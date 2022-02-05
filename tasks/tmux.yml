@@ -6,7 +6,7 @@
     force: "{{ dev_user_force_settings |bool }}"
     mode: 0644
   become: true
-  ignore_errors: true
+  failed_when: false
   ## get_url always reports as changed in check mode
   when: not ansible_check_mode
 
